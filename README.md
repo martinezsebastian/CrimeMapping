@@ -6,5 +6,3 @@ Fabian Bohnenberger and Sebastian Martinez
 Ideas on using analysing crime in a city. 
 
 [Our proposal](https://rawgit.com/martinezsebastian/CrimeMapping/master/Proposal.html)
-
-xosafd
