@@ -8,7 +8,7 @@ bibliography:
 ---
 
 The research proposed in this document aims to analyze the relation between the location of reported thefts in the city of Chicago and the location of police stations and their position within the district. 
-The analysis will follow @Morenoff:1997ux
+The analysis will follow @Morenoff:1997ux. 
 
  - Crime committed in the city as a function of the distance to the police station and to the border of the police district
  -- which crimes are committed where, in relation to the borders of the district/station
