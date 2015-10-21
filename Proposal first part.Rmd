@@ -19,7 +19,7 @@ This research project will aim at tracking the relation between the location of 
 
 ## Research Question / Hypotheses 
 
-Our reserach aims to show the relationship between the spatial distribution of crimes and the demarcation of police power in the city. We operationalize the concept of "demarcation of police power" by measuring the distance between crime scenes and the location of the police station as well as the distance between crime scene and police beat and district border. 
+Our research aims to show the relationship between the spatial distribution of crimes and the demarcation of police power in the city. We operationalize the concept of "demarcation of police power" by measuring the distance between crime scenes and the location of the police station as well as the distance between crime scene and police beat and district border. 
 
 ### Research Question 
 
@@ -40,24 +40,6 @@ Additional research questions are:
     
     
     
-It will be important to control for a number of other factors that affect crime. Especially, economic and demographic factors specific to each city area must be considered. There are, however, a lot of factors that are not readily measurable or for which no data exists. According to @FBI, factors that are known to affect the volume and type of crime occurring from place to place are:
-
-- Population density and degree of urbanization.
-- Variations in composition of the population, particularly youth concentration.
-- Stability of the population with respect to residents' mobility, commuting patterns, and transient factors.
-- Modes of transportation and highway system.
-- Economic conditions, including median income, poverty level, and job availability.
-- Cultural factors and educational, recreational, and religious characteristics.
-- Family conditions with respect to divorce and family cohesiveness.
-- Climate.
-- Effective strength of law enforcement agencies.
-- Administrative and investigative emphases of law enforcement.
-- Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational).
-- Citizens' attitudes toward crime.
-- Crime reporting practices of the citizenry.
-
-
-
 
 ## Literature Overview and Relevance of Research
 
@@ -83,11 +65,38 @@ Connected to the research question presented above is the hypothesis that a dens
 
 
 ## Methodology
--- QGIS
--- Distances
--- Import back into R.
--- Regression.
 
--- control variables (see https://www.fbi.gov/about-us/cjis/ucr/hate-crime/2011/resources/variables-affecting-crime)
+
+### Data Collection 
+
+API ... Chicago homepage, mention Sunlight Foundation doc. 
+
+
+### QGIS
+
+explain how to measure distances, include map 
+
+### Regression (R)
+
+outline control variables (see https://www.fbi.gov/about-us/cjis/ucr/hate-crime/2011/resources/variables-affecting-crime)
+
+It will be important to control for a number of other factors that affect crime. Especially, economic and demographic factors specific to each city area must be considered. There are, however, a lot of factors that are not readily measurable or for which no data exists. According to @FBI, factors that are known to affect the volume and type of crime occurring from place to place are:
+
+- Population density and degree of urbanization.
+- Variations in composition of the population, particularly youth concentration.
+- Stability of the population with respect to residents' mobility, commuting patterns, and transient factors.
+- Modes of transportation and highway system.
+- Economic conditions, including median income, poverty level, and job availability.
+- Cultural factors and educational, recreational, and religious characteristics.
+- Family conditions with respect to divorce and family cohesiveness.
+- Climate.
+- Effective strength of law enforcement agencies.
+- Administrative and investigative emphases of law enforcement.
+- Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational).
+- Citizens' attitudes toward crime.
+- Crime reporting practices of the citizenry.
+
+
+
 
 ## Bibliography 
