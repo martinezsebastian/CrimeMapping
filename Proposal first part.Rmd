@@ -1,11 +1,25 @@
 ---
-title: "Proposal"
+title: "Collaborative Research: Spatial Distribution of Crime"
 author: "Sebastian Martinez - Fabian Bohnenberger"
 date: "October 9, 2015"
 output: html_document
 bibliography:
     - crimemapping.bib
 ---
+
+## Summary 
+
+
+
+
+
+# Introduction 
+
+
+
+# Research Question 
+
+
 
 The research proposed in this document aims to analyze the relation between the location of reported thefts in the city of Chicago and the location of police stations and their position within the district. 
 The analysis will follow @Morenoff:1997ux. 
@@ -15,14 +29,21 @@ The analysis will follow @Morenoff:1997ux.
  -- Did certain crimes move away from the police station
  - include the map
 
-Outline
-- Introduction
-- Literature review
-- Methodology
+
+
+# Relevance of the Research Question and Literature Overview 
+
+
+
+# Methodology
 -- QGIS
 -- Distances
 -- Import back into R.
 -- Regression.
+
+
+
+
 
 
 
