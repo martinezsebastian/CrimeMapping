@@ -1,5 +1,5 @@
 ---
-title: "Collaborative Research: Spatial Distribution of Crime"
+title: "Collaborative Research: Spatial Distribution of Crime as a Function of the Demarcation of Police Power"
 author: "Sebastian Martinez - Fabian Bohnenberger"
 date: "October 9, 2015"
 output: html_document
@@ -9,8 +9,13 @@ bibliography:
 
 # Summary 
 
+This research project aims to analyze the relation between the location of reported crimes in a city and the spatial demarcations of police power, i.e. the location and distribution of police stations and police districts accross the city. Using data on the city of Chicago (and eventually other cities), we look into crime as a function of the distance to police stations and the borders of police districts. We analyze whether certain crimes are more likely to be perpetrated at the fringes of districts and whether the average distance of certain crimes to either the police stations or district boundary has significantly changed over the last few years. Our reserach aims to show trends in the spatial distribution of crimes as a function of the intentional or unintentional demarcation of police power in the city. Our findings can inform both police forces and policy-makers in their planning and decision-making. In terms of methodology, we use R to obtain publicly available data on crime from the respective city database(s). To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. R will be used to  create a regression model and visualize our findings. The whole project is available on GitHub: [CrimeMapping](https://github.com/martinezsebastian/CrimeMapping)
 
-The research proposed in this document aims to analyze the relation between the location of reported thefts in the city of Chicago and the location of police stations and their position within the district. 
+# Introduction 
+
+
+
+in the city of Chicago and the location of police stations and their position within the district. 
 The analysis will follow @Morenoff:1997ux. 
 
  - Crime committed in the city as a function of the distance to the police station and to the border of the police district
@@ -18,9 +23,6 @@ The analysis will follow @Morenoff:1997ux.
  -- Did certain crimes move away from the police station
  - include the map
 
-
-
-# Introduction 
 
 
 
