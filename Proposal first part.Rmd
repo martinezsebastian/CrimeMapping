@@ -19,23 +19,23 @@ This research project will aim at tracking the relation between the location of 
 
 ## Research Question / Hypotheses 
 
-Our research aims to show the relationship between the spatial distribution of crimes and the demarcation of police power in the city. We operationalize the concept of "demarcation of police power" by measuring the distance between crime scenes and the location of the police station as well as the distance between crime scene and police beat and district border. 
+Our research aims to show the relationship between the spatial distribution of crimes and the demarcation of police power in the city. We operationalize the concept of "demarcation of police power" by measuring the distance between crime scenes and the location of the police station as well as the distance between crime scene and police beat and district border. The motivation for this research stems from the way a city is divided into districts, invisible to pedestrians, but limiting in the way police can effectively carry out their duty.   
 
 ### Research Question 
 
-Our key research question is: **test**
+Our key research question is:
+Does the position of a police station and the borders of its respective district have an influence on the way crimes are distributed in a city?
 
-Additional research questions are: 
-
-1. Which crimes are committed where, in relation to the borders of the district/station?
-2. Did certain crimes move away from the police station?
+Complementary research questions are: i) Which types of crimes are committed where, in relation to the borders of the district/station? ii) Did certain crimes move away from the police station?
 
 ### Hypotheses 
 
+The proposed research questions are connected to the following hypothesis:
+
 **Hyptohesis 1**: The farther away from the police station, the more crimes are committed. 
-    
+
 **Hypothesis 2**: An overall rising number of crimes means crime moves closer to the police station. 
-    
+
 **Hypothesis 3**: For specific crimes, the number of criminal acts near the district borders are higher than those closer to the police station. 
     
     
@@ -56,7 +56,7 @@ The analysis will follow @Morenoff:1997ux.
 
 Described in a more conceptual manner, a city is not only set of objects placed one next to the other, but a set of places with specific functions designed for us, the citizens. Since the users interact with the physical space and vice versa, studying these interactions provide information to improve the efficiency of the function, as well as provide a better user experience. In this case, the structure of the city will be used to understand how it affects crime rates.\\
 
-Connected to the research question presented above is the hypothesis that a denser, mixed used neighborhood has a smaller number of crime occurrences than a sprawled, more spread out neighborhood. Morenoff \& Sampson \citeyearpar{Morenoff:1997ux} show that crimes have a spatial component, often ignored by social researchers. They also argue that depending on the physical structure of a city, areas with high crime can spread out to neighboring areas in a process called ‘spatial diffusion of crime’. Further, Rosenfeld et al. \citeyearpar{Rosenfeld:1999vv} found that when controlling for neighborhood demographic characteristics, the spatial distribution of crime is due to both the intrinsic characteristics of gang culture and the facilitating neighborhood characteristics. To pursue this approach, the concept of spatial weights matrix will be introduced. Following Leenders \citeyearpar{Leenders:2002fa} different characteristics of a neighborhood are included in a weights matrix to determine the use composition of a block, but also its relation with neighboring blocks, allowing for empirical research of diffusion effects in crime. 
+Connected to the research question presented above is the hypothesis that a denser, mixed used neighborhood has a smaller number of crime occurrences than a sprawled, more spread out neighborhood. Morenoff \& Sampson \citeyearpar{Morenoff:1997ux} show that crimes have a spatial component, often ignored by social researchers. They also argue that depending on the physical structure of a city, areas with high crime can spread out to neighboring areas in a process called ?spatial diffusion of crime?. Further, Rosenfeld et al. \citeyearpar{Rosenfeld:1999vv} found that when controlling for neighborhood demographic characteristics, the spatial distribution of crime is due to both the intrinsic characteristics of gang culture and the facilitating neighborhood characteristics. To pursue this approach, the concept of spatial weights matrix will be introduced. Following Leenders \citeyearpar{Leenders:2002fa} different characteristics of a neighborhood are included in a weights matrix to determine the use composition of a block, but also its relation with neighboring blocks, allowing for empirical research of diffusion effects in crime. 
 
 ## Data sources
 

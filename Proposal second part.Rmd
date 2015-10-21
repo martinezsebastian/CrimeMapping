@@ -1,0 +1,72 @@
+---
+title: "Collaborative Research: Spatial Distribution of Crime as a Function of the Demarcation of Police Power"
+author: "Sebastian Martinez - Fabian Bohnenberger"
+date: "October 9, 2015"
+output: html_document
+bibliography:
+    - crimemapping.bib
+---
+
+## Research Question / Hypotheses 
+
+Our research aims to show the relationship between the spatial distribution of crimes and the demarcation of police power in the city. We operationalize the concept of "demarcation of police power" by measuring the distance between crime scenes and the location of the police station as well as the distance between crime scene and police beat and district border. The motivation for this research stems from the way a city is divided into districts, invisible to pedestrians, but limiting in the way police can effectively carry out their duty.   
+
+### Research Question 
+
+Our key research question is:
+Does the position of a police station and the borders of its respective district have an influence on the way crimes are distributed in a city?
+
+Complementary research questions are: i) Which types of crimes are committed where, in relation to the borders of the district/station? ii) Did certain crimes move away from the police station?
+
+### Hypotheses 
+
+The proposed research questions are connected to the following hypothesis:
+
+**Hyptohesis 1**: The farther away from the police station, the more crimes are committed. 
+
+**Hypothesis 2**: An overall rising number of crimes means crime moves closer to the police station. 
+
+**Hypothesis 3**: For specific crimes, the number of criminal acts near the district borders are higher than those closer to the police station. 
+    
+    
+## Literature Review
+See First Part. 
+    
+## Methodology 
+    
+    
+## Data sources
+
+
+### Data Collection 
+
+API ... Chicago homepage, mention Sunlight Foundation doc. 
+
+### QGIS
+
+explain how to measure distances, include map 
+
+### Regression (R)
+
+outline control variables (see https://www.fbi.gov/about-us/cjis/ucr/hate-crime/2011/resources/variables-affecting-crime)
+
+It will be important to control for a number of other factors that affect crime. Especially, economic and demographic factors specific to each city area must be considered. There are, however, a lot of factors that are not readily measurable or for which no data exists. According to @FBI, factors that are known to affect the volume and type of crime occurring from place to place are:
+
+- Population density and degree of urbanization.
+- Variations in composition of the population, particularly youth concentration.
+- Stability of the population with respect to residents' mobility, commuting patterns, and transient factors.
+- Modes of transportation and highway system.
+- Economic conditions, including median income, poverty level, and job availability.
+- Cultural factors and educational, recreational, and religious characteristics.
+- Family conditions with respect to divorce and family cohesiveness.
+- Climate.
+- Effective strength of law enforcement agencies.
+- Administrative and investigative emphases of law enforcement.
+- Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational).
+- Citizens' attitudes toward crime.
+- Crime reporting practices of the citizenry.
+
+
+
+
+## Bibliography 
