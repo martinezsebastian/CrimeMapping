@@ -43,25 +43,23 @@ The proposed research questions are connected to the following hypothesis:
 
 ## Literature Overview and Relevance of Research
 
-    
+A significant amount of the literature looks at socioeconomic conditions to explain the occurence of urban criminal violence @Blau1982
 
-in the city of Chicago and the location of police stations and their position within the district. 
-The analysis will follow @Morenoff:1997ux. 
-
-
- - include the map
-
-
-
-
+Lit on spatial characteristics on crime here
 Described in a more conceptual manner, a city is not only set of objects placed one next to the other, but a set of places with specific functions designed for us, the citizens. Since the users interact with the physical space and vice versa, studying these interactions provide information to improve the efficiency of the function, as well as provide a better user experience. In this case, the structure of the city will be used to understand how it affects crime rates.\\
 
 Connected to the research question presented above is the hypothesis that a denser, mixed used neighborhood has a smaller number of crime occurrences than a sprawled, more spread out neighborhood. Morenoff \& Sampson \citeyearpar{Morenoff:1997ux} show that crimes have a spatial component, often ignored by social researchers. They also argue that depending on the physical structure of a city, areas with high crime can spread out to neighboring areas in a process called ?spatial diffusion of crime?. Further, Rosenfeld et al. \citeyearpar{Rosenfeld:1999vv} found that when controlling for neighborhood demographic characteristics, the spatial distribution of crime is due to both the intrinsic characteristics of gang culture and the facilitating neighborhood characteristics. To pursue this approach, the concept of spatial weights matrix will be introduced. Following Leenders \citeyearpar{Leenders:2002fa} different characteristics of a neighborhood are included in a weights matrix to determine the use composition of a block, but also its relation with neighboring blocks, allowing for empirical research of diffusion effects in crime. 
+@Morenoff:1997ux. 
+
+
+Other research, especially criminological literature, focuses more on the operative part of crime prevention, which is closer to our research project. The "Broken Windows Theory" postulated by James Q. Wilson and George Kelling in 1982 in an influential article in the Atlantic Monthly represents an important starting point. @Wilson suggest that targeting minor disorder, e.g. vandalism, broken windows could help reduce more serious crime. The theory assumes that the landscape "communicates" to people. A broken window transmits to criminals the message that a community displays a lack of informal social control, and is therefore unable or unwilling to defend itself against a criminal invasion. In more recent literature, this theory is, however criticized for its simplicity. Acccording to @Harcourt, evidence from New York City crime data and from social experiments in five US cities would "provide no support for a simple first-order disorder-crime relationship as hypothesized by Wilson and Kelling, nor for the proposition that broken windows policing is the optimal use of scarce law enforcement resources."
+
+
 
 ## Data sources
 
 
-
+add Sunlight foundation doc
 
 
 ## Methodology
