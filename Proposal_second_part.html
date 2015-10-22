@@ -92,14 +92,12 @@ img {
 </div>
 <div id="data-sources" class="section level2">
 <h2>Data sources</h2>
-<div id="data-collection" class="section level3">
-<h3>Data Collection</h3>
-<p>API … Chicago homepage, mention Sunlight Foundation doc.</p>
-</div>
-<div id="qgis" class="section level3">
-<h3>QGIS</h3>
-<p>explain how to measure distances, include map</p>
-</div>
+<ul>
+<li><p>Chicago Data Portal – Chicago Data Portal API, download from URL – Crimes by year and type with information on location ((X,Y) Coordinates) – Location of Police Stations – Shapefile for Police Districts — Sunlight Foundation document ### QGIS</p></li>
+<li>Measuring distances using QGIS. – Challenge: How to integrate the QGIS script into R so that the research can be replicable.</li>
+<li>Is there visual Evidence for the Hypothesis?</li>
+<li><p>Mapping movement of crime</p></li>
+</ul>
 <div id="regression-r" class="section level3">
 <h3>Regression (R)</h3>
 <p>outline control variables (see <a href="https://www.fbi.gov/about-us/cjis/ucr/hate-crime/2011/resources/variables-affecting-crime" class="uri">https://www.fbi.gov/about-us/cjis/ucr/hate-crime/2011/resources/variables-affecting-crime</a>)</p>
@@ -107,16 +105,16 @@ img {
 <ul>
 <li>Population density and degree of urbanization.</li>
 <li>Variations in composition of the population, particularly youth concentration.</li>
-<li>Stability of the population with respect to residents’ mobility, commuting patterns, and transient factors.</li>
-<li>Modes of transportation and highway system.</li>
-<li>Economic conditions, including median income, poverty level, and job availability.</li>
+<li>Stability of the population with respect to residents’ mobility, commuting patterns, and transient factors. [Location of immigrants]</li>
+<li>Modes of transportation and highway system. [Perhaps Chicago as a city is too small for this?]</li>
+<li>Economic conditions, including median income, poverty level, and job availability. [Travelling distance to and from work]</li>
 <li>Cultural factors and educational, recreational, and religious characteristics.</li>
-<li>Family conditions with respect to divorce and family cohesiveness.</li>
-<li>Climate.</li>
-<li>Effective strength of law enforcement agencies.</li>
-<li>Administrative and investigative emphases of law enforcement.</li>
-<li>Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational).</li>
-<li>Citizens’ attitudes toward crime.</li>
+<li>Family conditions with respect to divorce and family cohesiveness. [This one might seem hard. Maybe we can catch these unobservables with something else?]</li>
+<li>Climate. [Influence on Crime?]</li>
+<li>Effective strength of law enforcement agencies. [Fixed effects for Police Districts?]</li>
+<li>Administrative and investigative emphases of law enforcement. [Same as above]</li>
+<li>Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational). [Again, maybe fixed effects might take care of this. If there was a change in between the period of analysis we might be capturing a change in the trend]</li>
+<li>Citizens’ attitudes toward crime. [survey on the city?]</li>
 <li>Crime reporting practices of the citizenry.</li>
 </ul>
 <div class="references">

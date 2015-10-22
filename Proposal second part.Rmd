@@ -32,19 +32,22 @@ The proposed research questions are connected to the following hypothesis:
 ## Literature Review
 See First Part. 
     
-## Methodology 
-    
+## Methodology
+
     
 ## Data sources
-
-
-### Data Collection 
-
-API ... Chicago homepage, mention Sunlight Foundation doc. 
-
+- Chicago Data Portal
+-- Chicago Data Portal API, download from URL
+-- Crimes by year and type with information on location ((X,Y) Coordinates)
+-- Location of Police Stations
+-- Shapefile for Police Districts
+--- Sunlight Foundation document
 ### QGIS
 
-explain how to measure distances, include map 
+- Measuring distances using QGIS. 
+-- Challenge: How to integrate the QGIS script into R so that the research can be replicable. 
+- Is there visual Evidence for the Hypothesis?
+- Mapping movement of crime
 
 ### Regression (R)
 
@@ -54,19 +57,16 @@ It will be important to control for a number of other factors that affect crime.
 
 - Population density and degree of urbanization.
 - Variations in composition of the population, particularly youth concentration.
-- Stability of the population with respect to residents' mobility, commuting patterns, and transient factors.
-- Modes of transportation and highway system.
-- Economic conditions, including median income, poverty level, and job availability.
+- Stability of the population with respect to residents' mobility, commuting patterns, and transient factors. [Location of immigrants]
+- Modes of transportation and highway system. [Perhaps Chicago as a city is too small for this?]
+- Economic conditions, including median income, poverty level, and job availability. [Travelling distance to and from work]
 - Cultural factors and educational, recreational, and religious characteristics.
-- Family conditions with respect to divorce and family cohesiveness.
-- Climate.
-- Effective strength of law enforcement agencies.
-- Administrative and investigative emphases of law enforcement.
-- Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational).
-- Citizens' attitudes toward crime.
+- Family conditions with respect to divorce and family cohesiveness. [This one might seem hard. Maybe we can catch these unobservables with something else?]
+- Climate. [Influence on Crime?]
+- Effective strength of law enforcement agencies. [Fixed effects for Police Districts?]
+- Administrative and investigative emphases of law enforcement. [Same as above]
+- Policies of other components of the criminal justice system (i.e., prosecutorial, judicial, correctional, and probational). [Again, maybe fixed effects might take care of this. If there was a change in between the period of analysis we might be capturing a change in the trend]
+- Citizens' attitudes toward crime. [survey on the city?]
 - Crime reporting practices of the citizenry.
-
-
-
 
 ## Bibliography 
