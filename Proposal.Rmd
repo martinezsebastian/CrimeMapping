@@ -1,10 +1,10 @@
 ---
-title: "Collaborative Research: Spatial Distribution of Crime as a Function of the Demarcation of Police Power"
+title: 'Collaborative Research: Spatial Distribution of Crime as a Function of the
+  Demarcation of Police Power'
 author: "Sebastian Martinez - Fabian Bohnenberger"
 date: "October 9, 2015"
 output: html_document
-bibliography:
-    - crimemapping.bib
+bibliography: literature/crimemapping_literature.bib
 ---
 
 ## Summary 
@@ -70,7 +70,7 @@ API ... Chicago homepage, mention Sunlight Foundation doc.
 
 
 ### QGIS
-This is an example of the data available. The points plotted in the map show all of the crimes of type "ASSAULT" committed in the City of Chicago in 2015. From afar, it seems that the crimes committed are randomly located through the whole city, except for maybe in the north and south. ![Figure 1.](Assault2015_far.png). However, closer inspection shows that crimes are not randomly located over the grid of the city streets, or the police districts, but rather follow certain patterns. ![Figure 2](Assault2015_close.png). This patterns will certainly be shaped by the physical structure of the city <span style="color:red">(LOOK FOR THE STREETS). Also I find this thing fascinating!</span>, however, they might also follow a different trend. And hence, a visiual representation of our hypothesis.   
+This is an example of the data available. The points plotted in the map show all of the crimes of type "ASSAULT" committed in the City of Chicago in 2015. From afar, it seems that the crimes committed are randomly located through the whole city, except for maybe in the north and south. ![Figure 1.](resources/Assault2015_far.png). However, closer inspection shows that crimes are not randomly located over the grid of the city streets, or the police districts, but rather follow certain patterns. ![Figure 2](resources/Assault2015_close.png). This patterns will certainly be shaped by the physical structure of the city <span style="color:red">(LOOK FOR THE STREETS). Also I find this thing fascinating!</span>, however, they might also follow a different trend. And hence, a visiual representation of our hypothesis.   
 
 <span style="color:red">- Mapping movement of crime </span> Maybe tomorrow, depending on the word count. 
 
