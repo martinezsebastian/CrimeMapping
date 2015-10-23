@@ -1,7 +1,7 @@
 ---
 title: 'Collaborative Research: Spatial Distribution of Crime as a Function of the
   Demarcation of Police Power'
-author: "Sebastián Martínez - Fabian Bohnenberger"
+author: "Sebasti?n Mart?nez - Fabian Bohnenberger"
 date: "October 23, 2015"
 output: html_document
 bibliography: literature/crimemapping_literature.bib
@@ -63,22 +63,22 @@ Lastly, additional information on crime in cities, as well as further documentat
 The reported crime information is currently being processed. There are some missing values that need to be revised, and not all of the crime types are going to be (initially) considered. The information on police districts, police stations and beats have already been procured. 
 
 ### QGIS
-To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. The following is an example from the available data. The points plotted in the map show all crimes of type "ASSAULT" committed in the City of Chicago in 2015. In Figure 1, it seems that the crimes committed are randomly located through the whole city, except for maybe the very north and south.  
+To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. The following is an example from the available data. The points plotted in the figures 1 and 2 show all crimes of type "ASSAULT" committed in the City of Chicago in 2015. In Figure 1, it seems that the crimes committed are randomly located through the whole city, except for maybe the very north and south.  
 
 
-*Figure 1*  
+**Figure 1**
 ![Figure 1.](resources/Assault2015_far.png)
 
 Closer inspection in Figure 2,  however, shows that crimes are not randomly located over the grid of Chicago's streets, or the police districts, but rather follow certain patterns.  
 
-*Figure 2*  
+**Figure 2**
 ![Figure 2](resources/Assault2015_close.png).  
   
 These patterns will certainly be shaped by the physical structure of the city, but might also be influenced by other factors. For example, this could be the proximity of a police station - as we assume in hypothesis 1 - or a police district border. Figure 3 shows the position of the reported crimes for different years. The fact that they are not always in the same place suggest that there is evidence to pursue hypothesis 2 and hypothesis 3. 
 
-*Figure 3*  
-![Figure 3](resources/crimes_ASSAULT_2012-2015.png).  
-
+**Figure 3**  
+![Figure 3](resources/crimes_ASSAULT_2012-2015.png)
+_Triangles: 2012; Pentagons: 2013; Circles: 2014; Rhombus: 2015_
 
 ### Regression (R)
 
