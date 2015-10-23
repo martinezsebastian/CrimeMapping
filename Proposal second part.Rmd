@@ -33,17 +33,17 @@ The proposed research questions are connected to the following hypothesis:
 See First Part. 
     
 ## Methodology
-
+The proposed methodology for this assignment is to run a regression using the position of a crime against the different characteristics of the police district and the type of crime as the independent variables. The idea behind this is that depending on the active presence of police in a district, criminals might have incentives to move further away from the places where the police have a more sound presence. In other words, this research is trying to determine if the place where crime hotspots develop has a relation with the position of the police station. The sources of the data, as well as their necessary transformations are described in this chapter. 
     
 ## Data sources
-- Chicago Data Portal
--- Chicago Data Portal API, download from URL
--- Crimes by year and type with information on location ((X,Y) Coordinates)
--- Location of Police Stations
--- Shapefile for Police Districts
+The main source for accessing data for this research project will be the [Data Portal of the City of Chicago](data.cityofchicago.org). The available information includes all of the crimes that were committed in the city, georeferenced with their exact latitude and longitude, as well as the type and description of the event. Additionally, each entry records if there was an arrest, the respective police jurisdiction, and the location description (specific description of the location of the crime). To obtain this information, the API from the data portal is going to be used. In relation to R, the "import" function, part if the "Rio" package will be used to download the information throught the Portal's API. 
+
+In the same fashion, the information for the police districts is going to be obtained from the City of Chicago Data Portal. However, given the geographical nature of this particular information, it needs to be processed in a different program before it can be included into R. Police Districts are determined by 'shapefiles'. In other words, each district is determined by the x- and y-coordinates of its borders. Additionally, every district contains information of the location of the main police station, as well as support stations within the district. The proposed methodology uses GIS (Geographical Information System) software to determine the distance of every crime committed to the main station, as well as to the closest point in the border of the district. This information is then transfered into R so that it can be processed and used to test the suggested hypothesis. 
+
+Lastly, additional information on crime in cities, as well as further documentation of research on crime, can be found in [this](https://docs.google.com/document/d/1IFHRbKVSlKFpOuTJL1YE2mo5i7qNezlUMi1DHpK27rw/edit) document provided by the [Sunlight Foundation](http://sunlightfoundation.com/policy/municipal_crime/). 
 --- Sunlight Foundation document
 ### QGIS
-
+This is an example of the data available. The points plotted in the map show all of the crimes of type "ASSAULT" committed in the City of Chicago in 2015. From afar, it seems that the crimes committed are randomly located through the whole city. ![Figure 1.](Assault2015_far.png) 
 - Measuring distances using QGIS. 
 -- Challenge: How to integrate the QGIS script into R so that the research can be replicable. 
 - Is there visual Evidence for the Hypothesis?
