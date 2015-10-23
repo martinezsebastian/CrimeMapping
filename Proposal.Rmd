@@ -1,19 +1,19 @@
 ---
 title: 'Collaborative Research: Spatial Distribution of Crime as a Function of the
   Demarcation of Police Power'
-author: "Sebastian Martinez - Fabian Bohnenberger"
-date: "October 9, 2015"
+author: "Sebastián Martínez - Fabian Bohnenberger"
+date: "October 23, 2015"
 output: html_document
 bibliography: literature/crimemapping_literature.bib
 ---
 
 ## Summary 
 
-This research project aims to analyze the relation between the location of reported crimes in a city and the spatial demarcations of police power, i.e. the location and distribution of police stations and police beats and districts accross the city. Using data on the city of Chicago (and eventually other cities), we look into crime as a function of the distance to police stations and the borders of police districts. We analyze whether certain crimes are more likely to be perpetrated at the fringes of districts and whether the average distance of certain crimes to either the police stations or district boundary has significantly changed over the last few years. Our reserach aims to show trends in the spatial distribution of crimes as a function of the intentional or unintentional demarcation of police power in the city. Our findings can inform both police forces and policy-makers in their planning and decision-making. In terms of methodology, we use R to obtain publicly available data on crime from the respective city database(s). To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. R will be used to  create a regression model and visualize our findings. The whole project is available on GitHub: [CrimeMapping](https://github.com/martinezsebastian/CrimeMapping)
+This research project aims to analyze the relation between the location of reported crimes in a city and the spatial demarcations of police power, i.e. the location and distribution of police stations, and police beats and districts accross the city. Using data on the City of Chicago (and eventually other cities), we look into crime as a function of the distance to police stations and the borders of police districts. We analyze whether certain crimes are more likely to be perpetrated at the fringes of districts and whether the average distance of certain crimes to either the police stations or district boundary has significantly changed over the last few years. Our reserach aims to show trends in the spatial distribution of crimes as a function of the intentional or unintentional demarcation of police power in the city. Likewise, it aims to contribute to the general 'Crime Hotspot' location theory. Our findings can inform both police forces and policy-makers in their planning and decision-making. In terms of methodology, we use R to obtain publicly available data on crime from the respective city database(s). To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. R will be used to create a regression model and visualize our findings. The whole project is available on GitHub: [CrimeMapping](https://github.com/martinezsebastian/CrimeMapping)
 
 ## Introduction 
 
-Every community deals with the presence of crime. Criminal activity has a multitude of causes and the origins of crime have been the subject of investigation by many disciplines. The organization of law enforcement's response is a key factor in understanding the nature and extent of crime occurring in a specific area. For example, one city may be better fighting crime, because it has correctly identified hotspots and distributed its police forces accordingly. This often includes setting up additional police stations in trouble zones or adjusting police district and beat boundaries to better allocate existing forces.
+Every community deals with the presence of crime. Criminal activity has a multitude of causes and the origins of crime have been the subject of investigation by many disciplines. The organization of law enforcement's response is a key factor in understanding the nature and extent of crime occurring in a specific area. For example, one city may be better at fighting crime, because it has correctly identified hotspots and distributed its police forces accordingly. This often includes setting up additional police stations in trouble zones or adjusting police district and beat boundaries to better allocate existing forces.
 
 This research project will aim at tracking the relation between the location of reported crimes in a city and the spatial demarcations of police power. We especially focus on the location and distribution of police stations, police beats and districts accross the city. By looking at crime as a function of the distance to police stations and district borders, we analyze whether certain crimes are more likely to be perpetrated at the beat or district borders and whether the average distance of certain crimes to either the police stations or boundary has significantly changed over the last few years. If, for example, crime hotspots were to move towards the police stations, this could signify a drop in police performance over a certain time period. In this regard, this research also touchs upon the question of effectiveness of police work. For example, holding other factors relatively constant, differences in crime levels at the district borders could potentially indicate different levels of  cooperation between police districts in a given city. 
 
@@ -26,7 +26,7 @@ Our research aims to show the relationship between the spatial distribution of c
 Our key research question is:
 Does the position of a police station and the borders of its respective district have an influence on the way crimes are distributed in a city?
 
-Complementary research questions are: i) Which types of crimes are committed where, in relation to the borders of the district/station? ii) Did certain crimes move away from the police station?
+Complementary research questions that can be approached are: i) Which types of crimes are committed where, in relation to the borders of the district/station? ii) Did certain crimes move away from the police station?
 
 ### Hypotheses 
 
@@ -54,27 +54,32 @@ The proposed methodology for this assignment is to run a regression using the *r
 
 
 ### Data Collection 
-The main source for accessing data for this research project will be the [Data Portal of the City of Chicago](data.cityofchicago.org). The available information includes all crimes that were committed in the city, georeferenced with their exact latitude and longitude, as well as the type and description of the event. Additionally, each entry records if there was an arrest, the respective police jurisdiction, and the location description (specific description of the location of the crime). To obtain this information, we use the data portal's API and R's "import" function, which is part of the "Rio" package.
+The main source for accessing data for this research project will be the [Data Portal of the City of Chicago](data.cityofchicago.org). The available information includes all crimes that were reported in the city, georeferenced with their exact latitude and longitude, as well as the type and description of the event. Additionally, each entry records if there was an arrest, the respective police jurisdiction, and the location description (specific description of the location of the crime). To obtain this information, we use the data portal's API and R's "import" function, which is part of the "Rio" package.
 
 In the same fashion, the information for the police districts is going to be obtained from the City of Chicago Data Portal. However, given the geographical nature of this particular information, it needs to be processed in a different program before it can be included into R. Police Districts are determined by 'shapefiles'. In other words, each district is determined by the x- and y-coordinates of its borders. Additionally, every district contains information of the location of the main police station, as well as support stations within the district. The proposed methodology uses GIS (Geographical Information System) software to determine the distance of every crime committed to the main station, as well as to the closest point in the border of the district. This information is then transfered into R so that it can be processed and used to test the suggested hypothesis. 
 
 Lastly, additional information on crime in cities, as well as further documentation of research on crime, can be found in [this](https://docs.google.com/document/d/1IFHRbKVSlKFpOuTJL1YE2mo5i7qNezlUMi1DHpK27rw/edit) document provided by the [Sunlight Foundation](http://sunlightfoundation.com/policy/municipal_crime/). Depending on the success of out first approach in Chicago, we plan to extend the research to other cities that provide the relevant data, as mentioned in this document. 
 
+The reported crime information is currently being processed. There are some missing values that need to be revised, and not all of the crime types are going to be (initially) considered. The information on police districts, police stations and beats have already been procured. 
 
 ### QGIS
 To visualize the location data and calculate distances, we rely on the open-source Geographic Information System QGIS. The following is an example from the available data. The points plotted in the map show all crimes of type "ASSAULT" committed in the City of Chicago in 2015. In Figure 1, it seems that the crimes committed are randomly located through the whole city, except for maybe the very north and south.  
-  
+
+
 *Figure 1*  
 ![Figure 1.](resources/Assault2015_far.png)
-  
+
 Closer inspection in Figure 2,  however, shows that crimes are not randomly located over the grid of Chicago's streets, or the police districts, but rather follow certain patterns.  
 
 *Figure 2*  
 ![Figure 2](resources/Assault2015_close.png).  
   
-This patterns will certainly be shaped by the physical structure of the city <span style="color:red">(LOOK FOR THE STREETS). Also I find this thing fascinating!</span>, however, they might also follow a different trend. And hence, a visiual representation of our hypothesis.   
+This patterns will certainly be shaped by the physical structure of the city, however, they might also follow a different trend. And hence, a visual representation of our hypothesis 1. Figure 3 shows the position of the reported crimes for different years. The fact that they are not always in the same place suggest that there is evidence to pursue hypothesis 2. 
 
-<span style="color:red">- Mapping movement of crime </span> Maybe tomorrow, depending on the word count. 
+*Figure 3*  
+![Figure 3](resources/crimes_ASSAULT_2012-2015.png).  
+
+
 
 ### Regression (R)
 
