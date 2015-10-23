@@ -30,7 +30,7 @@ Complementary research questions are: i) Which types of crimes are committed whe
 
 ### Hypotheses 
 
-The proposed research questions are connected to the following hypothesis:
+The proposed research questions are connected to the following hypotheses:
 
 **Hyptohesis 1**: The farther away from the police station, the more crimes are committed. 
 
