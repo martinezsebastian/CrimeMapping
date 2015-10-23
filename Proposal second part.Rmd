@@ -43,11 +43,9 @@ In the same fashion, the information for the police districts is going to be obt
 Lastly, additional information on crime in cities, as well as further documentation of research on crime, can be found in [this](https://docs.google.com/document/d/1IFHRbKVSlKFpOuTJL1YE2mo5i7qNezlUMi1DHpK27rw/edit) document provided by the [Sunlight Foundation](http://sunlightfoundation.com/policy/municipal_crime/). 
 --- Sunlight Foundation document
 ### QGIS
-This is an example of the data available. The points plotted in the map show all of the crimes of type "ASSAULT" committed in the City of Chicago in 2015. From afar, it seems that the crimes committed are randomly located through the whole city. ![Figure 1.](Assault2015_far.png) 
-- Measuring distances using QGIS. 
--- Challenge: How to integrate the QGIS script into R so that the research can be replicable. 
-- Is there visual Evidence for the Hypothesis?
-- Mapping movement of crime
+This is an example of the data available. The points plotted in the map show all of the crimes of type "ASSAULT" committed in the City of Chicago in 2015. From afar, it seems that the crimes committed are randomly located through the whole city, except for maybe in the north and south. ![Figure 1.](Assault2015_far.png). However, closer inspection shows that crimes are not randomly located over the grid of the city streets, or the police districts, but rather follow certain patterns. ![Figure 2](Assault2015_close.png). This patterns will certainly be shaped by the physical structure of the city <span style="color:red">(LOOK FOR THE STREETS). Also I find this thing fascinating!</span>, however, they might also follow a different trend. And hence, a visiual representation of our hypothesis.   
+
+<span style="color:red">- Mapping movement of crime </span> Maybe tomorrow, depending on the word count. 
 
 ### Regression (R)
 
