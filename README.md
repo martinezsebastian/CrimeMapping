@@ -7,6 +7,9 @@ Ideas on analyzing crime in a city. Please follow the link to see the complete p
 
 [Our proposal](https://rawgit.com/martinezsebastian/CrimeMapping/master/Proposal.html)
 
+[proposal new](https://rawgit.com/martinezsebastian/CrimeMapping/master/Proposal.html)
+
+
 
 [Proposal working doc.](https://rawgit.com/martinezsebastian/CrimeMapping/master/Proposal_first_part.html)
 
