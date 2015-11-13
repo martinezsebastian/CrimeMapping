@@ -7,17 +7,31 @@ output: html_document
 bibliography: literature/crimemapping_literature.bib
 ---
 
-```{r, echo=FALSE}
-setwd("C:/Users/Fabian/Documents/GitHub/CrimeMapping")
-
-## How do we set multiple working directories again? 
-
-## If this file does not run, check/install required r packages.
-
-library("rio")
-library("RSocrata")
+```{r, include=FALSE}
+ 
+## NOTE: Running this file may take a few minutes because R will load ~340.000 observations!
 
 
+## Working Directory ##
+
+# Create list of used working directories
+possible_dir <- c('C:/Users/Fabian/Documents/GitHub/CrimeMapping', '/Users/SebastianMartinez/Dropbox/0. Hertie/3/Collaborative Social Science Data Analysis/GitHub/CrimeMapping/')
+
+# Set to first valid directory in the possible_dir vector
+repmis::set_valid_wd(possible_dir)
+
+## Loading required packages ## 
+
+# If this file does not run, check/install required r packages.
+library(repmis)
+library(rio)
+library(RSocrata)
+library(foreign)
+library(rio)
+library(plyr)
+library(GISTools)
+library(rgeos)
+## library(RSocrata)
 
 ```
 
@@ -41,7 +55,7 @@ The main source for accessing data for this research project is the [Data Portal
 
 ### Overview of data used in this project
 
-Because of data limitations on our control variables, our research focuses on the years 2008-2012. For this timeframe, Census data is available on the Data Portal that provides a more comprehensive overview of the socioeconomic characteristics. Also, recent data on other potential control variables is only partially available from 2012 to present. 
+Because of data limitations on our control variables, our research focuses on the years 2008-2012. For this timeframe, Census data is available on the Data Portal that provides a more comprehensive overview of the socioeconomic characteristics. Also, recent data on other potential control variables is only partially available from 2012 to present. At the moment, we only look at the crime data of the year 2012 (~335.000 observations). 
 
 1. Crimes (2001 to present)
 
@@ -68,20 +82,151 @@ We rely on a regression to explain the occurence of crime at specific locations 
 
 Data can be collected by two ways: using the City of Chicago Data Portal's recommended "RSocrata" package or relying on the "Rio" package. 
 
-```{r, echo=TRUE}
-library("rio")
-library("RSocrata")
+```{r, echo=FALSE}
+## R code to import the respective data files is sourced from TWO separate R file. The first one contains the crime data. NOTE that running this file may take a short while because R will load ~340.000 observations for the year 2012! The second contains all other data. 
+
+## Crime Data (NOTE: May take a few minutes)
+source('RSourceFiles/DataImportCrime.R')
+
+## Border Data & Controls 
+source('RSourceFiles/DataImportRest.R')
+
+```
+
+
+### Calculating District Centers 
+
+In a first step, we calculate the centers of the police districts. Second, we will compare the police districts with the delineation of "communities" in Chicago. 
+
+```{r, echo=FALSE}
+
+## To access the information contained in the shapefiles, the .dbf file is used. 
+## The shapefiles are loaded into R, and the Centroids of the polygons are calculated. 
+boundaries <- read.dbf("RSourceFiles/PoliceDistrict.dbf")
+sids <- readShapePoly("RSourceFiles/PoliceDistrict.shp")
+PoliceDistrictCentroids = as.data.frame(gCentroid(sids,byid=TRUE))
+
+```
+
+
+**Figure 1** shows a plot of the districts with the calculated centroids is generated
+```{r, echo=FALSE}
+## A plot of the districts with the centroids is generated
+plot(sids)
+points(coordinates(sids),pch=1)
+points(PoliceDistrictCentroids,pch=2)
+
+```
+
+
+```{r, echo=FALSE}
+
+## Information is saved onto the boundaries data frame to be then merged with the additional information
+boundaries$centroid_x <- PoliceDistrictCentroids$x
+boundaries$centroid_y <- PoliceDistrictCentroids$y
+
+
+# Similarly, information on the boundaries of the communities is added. 
+commareas_dbf <- read.dbf("RSourceFiles/CommAreas.dbf")
+commareas <- readShapePoly("RSourceFiles/CommAreas.shp")
+CommAreasCentroids <- as.data.frame(gCentroid(commareas,byid=TRUE))
+
+```
+
+
+**Figure 2** shows the Community Districts (on which the Census Data is based) with the centroids. 
+
+```{r, echo=FALSE}
+
+## A plot of the community districts with the centroids is generated
+plot(commareas)
+points(coordinates(commareas),pch=1)
+points(CommAreasCentroids,pch=2)
+
+## Information is saved onto the boundaries data frame to be then merged with the additional information
+commareas_dbf$centroid_x <- CommAreasCentroids$x
+commareas_dbf$centroid_y <- CommAreasCentroids$y
+
+```
+
+
+### Merging the Data
+
+We merge the relevant data in two steps. First, the crime and census data are merged based on the "community area" code that is used in both datasets. Second, the data on police districts and community areas with their respective centroids is merged with the crime and census data. 
+
+```{r, echo=FALSE}
+
+## A new dataframe named "total" is created that contains all crime and census data! NOTE: Requires loading crime data!
+## Contains 335481 obs. and 30 var. 
+total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
+
 ```
 
 ```{r, echo=FALSE}
-## R code to import the respective data files is sourced from a separate R file. Please see: 
 
-##source('resources/DataImport.R')
+## Data from the boundaries and the community areas with their respective centroids is merged with the crime and census data
+total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
+total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
+
+### renaming
+total$center_x <- total$centroid_y.x
+total$center_y <- total$centroid_y.y
+total$x <- total$X.Coordinate
+total$y <- total$Y.Coordinate
+
+## Result: "total" dataframe contains 57 var. 
+
+```
+
+## Calculating the distance of crimes to the center of police districts
+
+Based on our calculations of the centers of the police districts, we now calculate the distance between the location of each crime and the center of the police district. This is done so that we can determine which crimes occur closer to the border of each district, and hence farther away from the location of the police station for that district. We calculate the distance in two ways: 
+
+1. The absolute distance of each crime to the district's police station
+
+2. The relative distance based on the crime in each district that is farthest away from the district's police station. 
+
+```{r, echo=FALSE}
+
+# Absolute Distance
+## The Distance from the place where a crime was committed to the center of the police district is calculated. 
+
+total$y_dist <- total$y - total$center_y
+total$x_dist <- total$x - total$center_x
+total$distance <- sqrt((total$x_dist)^2+(total$y_dist)^2)
+total$count <- 1
+# NA values for distance are omitted from the analysis
+total <- total[!(is.na(total$distance)),]
+
+counter <- aggregate(count ~ District, data = total, FUN=mean)
+
+```
+
+```{r, echo=FALSE}
+
+# Relative Distance
+## To determine the relative distances (crime farthest away=100)
+district_list <- list()
+for(i in counter$District) 
+{
+  temp <- total[total[,2]==i,]
+  nam <- paste("District", i, sep = "")
+  assign(nam, temp)
+  district_list[[nam]] <- temp
+}
+
+for(i in counter$District) 
+{
+  nam <- paste("District", i, sep = "")
+  temp <- district_list[[nam]]
+  temp$max_distance <- max(abs(temp$distance))
+  assign(nam, temp)
+  district_list[[nam]] <- temp
+}
 
 ```
 
 
-### Merging data 
 
 
 
