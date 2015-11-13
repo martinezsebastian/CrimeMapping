@@ -65,22 +65,25 @@ total$y_dist <- total$y - total$center_y
 total$x_dist <- total$x - total$center_x
 total$distance <- sqrt((total$x_dist)^2+(total$y_dist)^2)
 total$count <- 1
+# NA values for distance are omitted from the analysis
+total <- total[!(is.na(total$distance)),]
 
 counter <- aggregate(count ~ District, data = total, FUN=mean)
 
+# Relative Distance
+## To determine the relative distances 
 district_list <- list()
 for(i in counter$District) 
 {
   temp <- total[total[,2]==i,]
-  nam <- paste("district", i, sep = "")
+  nam <- paste("District", i, sep = "")
   assign(nam, temp)
   district_list[[nam]] <- temp
 }
 
-
 for(i in counter$District) 
 {
-  nam <- paste("district", i, sep = "")
+  nam <- paste("District", i, sep = "")
   temp <- district_list[[nam]]
   temp$max_distance <- max(abs(temp$distance))
   assign(nam, temp)
@@ -92,7 +95,8 @@ library(plyr)
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
 
-
+Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
+View(Crime_Data$rel_dist)
 
 
 
