@@ -265,10 +265,10 @@ agg_crime <- agg_crime[order(agg_crime$rel_dist),]
 ```
 
 
-```{r kable}
+```{r kable, echo=FALSE}
 
 library(knitr)
-kable(as.matrix(agg_crime), digits = 2, caption = "Aggregate Crime Statistics") 
+kable(as.matrix(agg_crime), digits = 2, caption = "Aggregate Crime Statistics (Relative Distance to Policy District Center accross all Districts") 
 
 ```
 
@@ -289,7 +289,7 @@ curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lw
 
 ```
 
-As we can see in Figure 4, looking at the data for each district separately leads to improvements but still yields only slightly better results. 
+As we can see in Figure 4, looking at the data for each district separately leads to some improvements. We will have to assess differences in the spatial distribution of crime (in terms of distance from the police district center) for each district in a next step. 
 
 **Figure 4 - Relative Distance between Crime Types and District Center for individual Police Districts**
 ```{r, echo=FALSE}
@@ -300,7 +300,6 @@ curve(dnorm(x, mean=mean(reldistind), sd=sd(reldistind)), add=TRUE, col="darkblu
 
 ```
 
-Given these results, we are rethinking the use of the relative distance calculation. The absolute distance, of course, provides more diverse results.  
 
 ## Next steps 
 
