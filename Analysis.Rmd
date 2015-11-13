@@ -31,15 +31,24 @@ library(rio)
 library(plyr)
 library(GISTools)
 library(rgeos)
-## library(RSocrata)
+library(knitr)
+
+
 
 ```
 
 
+
+```{r setup, include=FALSE}
+## knitr caching options
+##knitr::opts_chunk$set(cache=TRUE)
+```
+
+
+
 ## Summary
 
-...
-
+This document presents our data collection and transformation efforts, including the calculation of distances between crime locations and the center of police districts and community districts. We gather data on crime, district borders and socioeconomic inidcators from the City of Chicago Data Portal and merge them into one dataset. Using R, we calculate the distance between crime locations and district centers and add this information to the data frame. We also conduct descriptive statistics on the data, show first results concerning the relativie distance of different crimes from the center of police districts and include maps showing our calculation of district centers as well as crime locations. 
 
 ## Research Aim and Methodology 
 
@@ -48,9 +57,6 @@ For a detailed literature overview and our methodology, please see our [Research
 ## Data Gathering 
 
 The main source for accessing data for this research project is the [Data Portal of the City of Chicago](data.cityofchicago.org). The website provides access to government data on the City departments, services, facilities and performance and also allows access via an API. The [Socrata Open Data API](https://github.com/chicago) can be used to load the data directly into R. To import the information, we rely on R's "Rio" package, which features the "import" function.
-
-
-...
 
 
 ### Overview of data used in this project
@@ -83,7 +89,7 @@ We rely on a regression to explain the occurence of crime at specific locations 
 Data can be collected by two ways: using the City of Chicago Data Portal's recommended "RSocrata" package or relying on the "Rio" package. 
 
 ```{r, echo=FALSE}
-## R code to import the respective data files is sourced from TWO separate R file. The first one contains the crime data. NOTE that running this file may take a short while because R will load ~340.000 observations for the year 2012! The second contains all other data. 
+## R code to import the respective data files is sourced from TWO separate R file. The first one contains the crime data. NOTE that running this file may take a short while because R will load ~340.000 crime observations for the year 2012! The second contains import code for all other data. 
 
 ## Crime Data (NOTE: May take a few minutes)
 source('RSourceFiles/DataImportCrime.R')
@@ -135,7 +141,6 @@ CommAreasCentroids <- as.data.frame(gCentroid(commareas,byid=TRUE))
 
 
 **Figure 2** shows the Community Districts (on which the Census Data is based) with the centroids. 
-
 ```{r, echo=FALSE}
 
 ## A plot of the community districts with the centroids is generated
@@ -156,7 +161,7 @@ We merge the relevant data in two steps. First, the crime and census data are me
 
 ```{r, echo=FALSE}
 
-## A new dataframe named "total" is created that contains all crime and census data! NOTE: Requires loading crime data!
+## A new dataframe named "total" is created that contains all crime and census data. NOTE: Requires loading crime data!
 ## Contains 335481 obs. and 30 var. 
 total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 
@@ -182,9 +187,9 @@ total$y <- total$Y.Coordinate
 
 Based on our calculations of the centers of the police districts, we now calculate the distance between the location of each crime and the center of the police district. This is done so that we can determine which crimes occur closer to the border of each district, and hence farther away from the location of the police station for that district. We calculate the distance in two ways: 
 
-1. The absolute distance of each crime to the district's police station
+1. The absolute distance of each crime to the district's center.
 
-2. The relative distance based on the crime in each district that is farthest away from the district's police station. 
+2. The relative distance based on the crime in each district that is farthest away from the district's center. The relative distance is calculated as the distance of every crime to the center divided by the distance of the crime that is the farthest away from the center of the district. This allows us to understand the position of every crime in relation to the police district where it occurred, instead of a level measurement. 
 
 ```{r, echo=FALSE}
 
@@ -205,7 +210,11 @@ counter <- aggregate(count ~ District, data = total, FUN=mean)
 ```{r, echo=FALSE}
 
 # Relative Distance
-## To determine the relative distances (crime farthest away=100)
+## To determine the relative distances (crime farthest away=1)
+
+## Data has to be adapted because distance needs to be calculated for each district separately. 
+
+### Loop to split the data set into smaller datasets, one for every district
 district_list <- list()
 for(i in counter$District) 
 {
@@ -215,6 +224,7 @@ for(i in counter$District)
   district_list[[nam]] <- temp
 }
 
+### Max distance is calculated and included into the data set
 for(i in counter$District) 
 {
   nam <- paste("District", i, sep = "")
@@ -224,46 +234,71 @@ for(i in counter$District)
   district_list[[nam]] <- temp
 }
 
+### Different data frames are appended into a single big data set again. 
+Crime_Data <- ldply(district_list, data.frame)
+Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
+#Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
+
+
 ```
-
-
-
-
 
 ## Descriptive statistics 
 
-### Overview of Crime in Chicago (2008-2012) 
-
-add desc. stat. on crime here 
-
-### Calculation of distance between crime locations and district center 
-
-We use the center of each police district as a proxy for the district borders. 
+```{r, results='asis'}
 
 
-
-### Description of control variables for regression (=description of socioeconomic situaiton in Chicago)
-
-#### Census Data (2008-2012) 
-
-
-```{r}
-
-
-
+# Aggregate descriptive statistics
+## A "Collapse" is done on the relative distance by District and by typ of crime, and then
+## only to types of crime to see if there is a relationship between their occurence in relation to the 
+## border of the district. 
+agg_crime_type <- aggregate(rel_dist ~ District*Primary.Type, data=Crime_Data, FUN=mean)
+agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
+agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- agg_crime[order(agg_crime$rel_dist),]
 
 
 ```
 
 
+```{r kable}
+
+library(knitr)
+##kable(agg_crime, caption = "Aggregate Crime Statistics") 
+## kable function DOES NOT WORK AT THE MOMENT!
+
+##print(agg_crime)
+
+```
+
+#### Graphical representation
+
+Based on google maps, Figure 3 presents the delineation of police districts across Chicago. 
+```{r, echo=FALSE}
+
+## additional packages
+library(maptools)
+library(ggmap)
+library(ggplot2)
+
+## Source map from google maps & add data points
+
+gpclibPermit()
+area <- readShapePoly("RSourceFiles/PoliceDistrict.shp")
+mapImage <- get_map(location = c(lon = -87.6, lat = 41.8), color = "color", source = "google", zoom = 10)
+areapoints <- fortify(area)
+head(area)
+ggmap(mapImage) + geom_polygon(aes(x = long, y = lat, group = group), data = areapoints, alpha = 0.5) + labs(x = "Longitude", y = "Latitude")
+
+
+```
+
+
+## Next steps 
 
 
 
-## Inferential Statistics
 
-### Specify dependent variable in regression
-
-Specify dependent variabnle in regression 
 
 
 
