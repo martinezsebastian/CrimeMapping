@@ -174,7 +174,7 @@ total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
 total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
 
 ### renaming
-total$center_x <- total$centroid_y.x
+total$center_x <- total$centroid_x.y
 total$center_y <- total$centroid_y.y
 total$x <- total$X.Coordinate
 total$y <- total$Y.Coordinate
@@ -210,9 +210,17 @@ counter <- aggregate(count ~ District, data = total, FUN=mean)
 ```{r, echo=FALSE}
 
 # Relative Distance
+<<<<<<< Updated upstream
 ## To determine the relative distances (crime farthest away=1)
 
 ## Data has to be adapted because distance needs to be calculated for each district separately. 
+=======
+## To determine the relative distances of where crimes are committed, the distance to the farthest 
+## crime in every district is determined, and then the relative distance is measured as the 
+## distance from every crime divided over the distance to the farthest away crime. 
+## This allows us to understand the position of every crime in relation to the police district where it
+## occurred, instead of a level measurement. 
+>>>>>>> Stashed changes
 
 ### Loop to split the data set into smaller datasets, one for every district
 district_list <- list()
@@ -249,15 +257,31 @@ Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
 ```{r, echo=FALSE}
 
 
+<<<<<<< Updated upstream
 # Aggregate descriptive statistics
 ## A "Collapse" is done on the relative distance by District and by typ of crime, and then
 ## only to types of crime to see if there is a relationship between their occurence in relation to the 
 ## border of the district. 
+=======
+## Descriptive statistics 
+```{r, echo=FALSE}
+# Aggregate descriptive statistics
+## A "Collapse" is done on the relative distance by District and by typo of crime, and then
+## to only types of crime to see if there is a relationship between they occur in relation to the 
+## border of the district
+>>>>>>> Stashed changes
 agg_crime_type <- aggregate(rel_dist ~ District*Primary.Type, data=Crime_Data, FUN=mean)
 agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
 agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
 agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
 agg_crime <- agg_crime[order(agg_crime$rel_dist),]
+<<<<<<< Updated upstream
+=======
+kable(agg_crime)
+```
+
+
+>>>>>>> Stashed changes
 
 
 ```
