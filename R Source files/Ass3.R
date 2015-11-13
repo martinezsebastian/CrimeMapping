@@ -1,5 +1,6 @@
 library(foreign)
 library(rio)
+library(knitr)
 library(plyr)
 library(GISTools)
 library(rgeos)
@@ -43,6 +44,7 @@ commareas_dbf$centroid_x <- CommAreasCentroids$x
 commareas_dbf$centroid_y <- CommAreasCentroids$y
 
 
+
 # Census Data
 ## Data from the Census is downloaded and merged with the crimes information for 2012.
 census <- import("https://data.cityofchicago.org/resource/kn9c-c2s2.json")
@@ -53,7 +55,7 @@ total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
 total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
 ### renaming
-total$center_x <- total$centroid_y.x
+total$center_x <- total$centroid_x.y
 total$center_y <- total$centroid_y.y
 total$x <- total$X.Coordinate
 total$y <- total$Y.Coordinate
@@ -91,18 +93,18 @@ for(i in counter$District)
 }
 
 
-library(plyr)
+
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
-
-Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
-View(Crime_Data$rel_dist)
+#Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
 
 
+agg_crime_type <- aggregate(rel_dist ~ District*Primary.Type, data=Crime_Data, FUN=mean)
+agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
 
-
-aggtotal <- aggregate(distance ~ district*primarytype, data=total, FUN=mean)
-aggtotal$number <- aggregate(count ~ district*primarytype, data=total, FUN=sum)
+agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
+agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- agg_crime[order(agg_crime$rel_dist),]
 
 
 

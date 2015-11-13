@@ -1,0 +1,13 @@
+---
+title: "Crime Statistics"
+author: "Sebastian Martinez - Fabian Bohnenberger"
+date: "November 13, 2015"
+output: html_document
+---
+
+
+```{r}
+kable(agg_crime, caption = "Aggregate Crime Statistics")
+```
+
+
