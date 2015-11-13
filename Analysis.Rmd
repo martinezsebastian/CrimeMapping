@@ -1,0 +1,139 @@
+---
+title: 'Collaborative Research: Spatial Distribution of Crime as a Function of the
+  Demarcation of Police Power - Pair assignment 3'
+author: "Fabian Bohnenberger and Sebastian Martinez"
+date: "November 13, 2015"
+output: html_document
+bibliography: literature/crimemapping_literature.bib
+---
+
+```{r, echo=FALSE}
+setwd("C:/Users/Fabian/Documents/GitHub/CrimeMapping")
+
+## How do we set multiple working directories again? 
+
+## If this file does not run, check/install required r packages.
+
+library("rio")
+library("RSocrata")
+
+
+
+```
+
+
+## Summary
+
+...
+
+
+## Research Aim and Methodology 
+
+For a detailed literature overview and our methodology, please see our [Research Proposal](https://rawgit.com/martinezsebastian/CrimeMapping/master/Proposal.html).
+
+## Data Gathering 
+
+The main source for accessing data for this research project is the [Data Portal of the City of Chicago](data.cityofchicago.org). The website provides access to government data on the City departments, services, facilities and performance and also allows access via an API. The [Socrata Open Data API](https://github.com/chicago) can be used to load the data directly into R. To import the information, we rely on R's "Rio" package, which features the "import" function.
+
+
+...
+
+
+### Overview of data used in this project
+
+Because of data limitations on our control variables, our research focuses on the years 2008-2012. For this timeframe, Census data is available on the Data Portal that provides a more comprehensive overview of the socioeconomic characteristics. Also, recent data on other potential control variables is only partially available from 2012 to present. 
+
+1. Crimes (2001 to present)
+
+This [dataset on crime in Chicago](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) includes information on all crimes that were reported in the city from 2001 until 2015. It includes the date and time, the "primary type" of the crime (e.g. theft, arson, narcotics), a short description (e.g. type of weapon used, broad indication of the value stolen), and whether there has been an arrest. Additionally, it provides us with detailed data on the location of the crime, including latitude and longitude as well as in which police beat and district and in which community district the crime occurred. It also includes a specific location description (e.g. sidewalk, office building or school).
+
+2. District and community border data
+
+For our research project, information on borders of police districts and "communities" is crucial. Information on [police districts](https://data.cityofchicago.org/Public-Safety/Boundaries-Police-Districts-current-/fthy-xz3r) is important because we are interested in the spatial distribution of crime as a function of the location of police stations and the organizational delineation of police power. [Community borders](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6) are important because most socioeconomic data available on the Chicago Data Portal is aggregated on the community level. This does also include information on age distributions, health, as well as organizational statistics like abandoned buildings, land use and energy consumption. 
+
+3. Control variables (including socioeconomic data, esp. 2008-2012)
+
+We rely on a regression to explain the occurence of crime at specific locations as a function of the spatial allocation of police force in a city. Our dependent variable is the occurence of specific crimes. Independent variables are the distance to the main and support police stations as well as the distance to the center of the police district. For the regression, we have to control for the specific characteristics of the police districts in question that affect crime. Economic and demographic factors in each city area (community level data) must be considered, as well as other imortant variables. The City of Chicago Data Portal offers information on the following characteristics of communities: 
+
+  - [Census Data 2008-2012](https://data.cityofchicago.org/Health-Human-Services/Census-Data-Selected-socioeconomic-indicators-in-C/kn9c-c2s2), especially focusing on certain socioeconomic indicators (percent of housing crowded, percent households below poverty line, percentage aged 16+ unemployed, percentage aged 25+ without highschool diploma, percentage aged under 18 or over 64, per capita income, and a weighted "hardship index". Further explanation on the dataset can be accessed [here](https://data.cityofchicago.org/api/views/fwb8-6aw5/files/A5KBlegGR2nWI1jgP6pjJl32CTPwPbkl9KU3FxlZk-A?download=true&filename=P:\EPI\OEPHI\MATERIALS\REFERENCES\ECONOMIC_INDICATORS\Dataset_Description_socioeconomic_indicators_2012_FOR_PORTAL_ONLY.pdf)  
+  - Additional information on the community level can be found in this [public health statistics dataset](https://data.cityofchicago.org/Health-Human-Services/Public-Health-Statistics-Selected-public-health-in/iqnk-2tcu), which not only provides information on birth rates and a number of diseases, but also lists environment or poverty-related diseases (e.g. childhood lead poisoning), the teen birth rate and includes data on unemployment levels on the community level. This [dataset](https://data.cityofchicago.org/Health-Human-Services/Public-Health-Statistics-Life-Expectancy-By-Commun/qjr3-bm53) provides additional information on the life expectancy on the community level. Additionally, the Data Portal includes relevant [data](https://data.cityofchicago.org/Community-Economic-Development/Vacant-Properties-by-Community-Area/cjr7-qyw5) like the number of vacant properties on the community level.
+  
+  - Other datasets on the community level are: Data on [energy use](https://data.cityofchicago.org/Environment-Sustainable-Development/Average-Electricity-Usage-per-Square-Foot-by-Commu/usfg-z9mx) and data on [special empowerment zones](https://data.cityofchicago.org/Community-Economic-Development/Boundaries-Empowerment-Zones/m6ef-sjkj) across districts.
+  
+  - The City of Chicago also offers information on police funding over the years on a district level. It is, however, not easily discernible whether year-to-year budget changes are actually funding active police work or are, for example, neccessary to cover pensions. Also, the allocation of funding to specific districts cannot be fully ascertained based on the provided data. 
+  
+  - There are, however, some factors that are not readily measurable or for which no data exists and we need to make indirect assumptions (e.g. citizens attitude towards crime, crime reporting practices of the citizenry, family cohesiveness, cultural characteristics) See also our Proposal for a more comprehensive list of important control variables. 
+  
+### Data collection 
+
+Data can be collected by two ways: using the City of Chicago Data Portal's recommended "RSocrata" package or relying on the "Rio" package. 
+
+```{r, echo=TRUE}
+library("rio")
+library("RSocrata")
+```
+
+```{r, echo=FALSE}
+## R code to import the respective data files is sourced from a separate R file. Please see: 
+
+##source('resources/DataImport.R')
+
+```
+
+
+### Merging data 
+
+
+
+## Descriptive statistics 
+
+### Overview of Crime in Chicago (2008-2012) 
+
+add desc. stat. on crime here 
+
+### Calculation of distance between crime locations and district center 
+
+We use the center of each police district as a proxy for the district borders. 
+
+
+
+### Description of control variables for regression (=description of socioeconomic situaiton in Chicago)
+
+#### Census Data (2008-2012) 
+
+
+```{r}
+
+
+
+
+
+```
+
+
+
+
+
+## Inferential Statistics
+
+### Specify dependent variable in regression
+
+Specify dependent variabnle in regression 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
