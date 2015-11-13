@@ -1,5 +1,6 @@
 library(foreign)
 library(rio)
+library(knitr)
 library(plyr)
 library(GISTools)
 library(rgeos)
@@ -43,6 +44,7 @@ commareas_dbf$centroid_x <- CommAreasCentroids$x
 commareas_dbf$centroid_y <- CommAreasCentroids$y
 
 
+
 # Census Data
 ## Data from the Census is downloaded and merged with the crimes information for 2012.
 census <- import("https://data.cityofchicago.org/resource/kn9c-c2s2.json")
@@ -53,7 +55,7 @@ total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
 total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
 ### renaming
-total$center_x <- total$centroid_y.x
+total$center_x <- total$centroid_x.y
 total$center_y <- total$centroid_y.y
 total$x <- total$X.Coordinate
 total$y <- total$Y.Coordinate
@@ -71,7 +73,13 @@ total <- total[!(is.na(total$distance)),]
 counter <- aggregate(count ~ District, data = total, FUN=mean)
 
 # Relative Distance
-## To determine the relative distances 
+## To determine the relative distances of where crimes are committed, the distance to the farthest 
+## crime in every district is determined, and then the relative distance is measured as the 
+## distance from every crime divided over the distance to the farthest away crime. 
+## This allows us to understand the position of every crime in relation to the police district where it
+## occurred, instead of a level measurement. 
+
+### Loop to split the data set into smaller datasets, one for every district
 district_list <- list()
 for(i in counter$District) 
 {
@@ -81,6 +89,7 @@ for(i in counter$District)
   district_list[[nam]] <- temp
 }
 
+### Max distance is calculated and included into the data set
 for(i in counter$District) 
 {
   nam <- paste("District", i, sep = "")
@@ -90,19 +99,23 @@ for(i in counter$District)
   district_list[[nam]] <- temp
 }
 
-
-library(plyr)
+### Different data frames are appended into a single big data set again. 
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
+#Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
 
-Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
-View(Crime_Data$rel_dist)
+# Aggregate descriptive statistics
+## A "Collapse" is done on the relative distance by District and by typo of crime, and then
+## to only types of crime to see if there is a relationship between they occur in relation to the 
+## border of the district
+agg_crime_type <- aggregate(rel_dist ~ District*Primary.Type, data=Crime_Data, FUN=mean)
+agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
+agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- agg_crime[order(agg_crime$rel_dist),]
 
 
 
-
-aggtotal <- aggregate(distance ~ district*primarytype, data=total, FUN=mean)
-aggtotal$number <- aggregate(count ~ district*primarytype, data=total, FUN=sum)
 
 
 
