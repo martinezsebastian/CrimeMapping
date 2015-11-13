@@ -9,7 +9,7 @@ bibliography: literature/crimemapping_literature.bib
 
 ```{r, include=FALSE}
  
-## NOTE: Running this file may take a few minutes because R will load ~340.000 observations!
+## NOTE: Running this file may take a few minutes because R will load ~340.000 observations (crime in the year 2012).
 
 
 ## Working Directory ##
@@ -282,7 +282,7 @@ In this section we test whether calculating the relative distance of certain cri
 As Figure 3 shows, the relative distance for crime types across all districts is not significantly distributed to make inferences about the occurence of specific crimes. We need to look at more disaggregated data to find differences in the spatial distribution of crime. 
 
 **Figure 3 - Relative Distance between Crime Types and District Center across Police Districts**
-```{r}
+```{r, echo=FALSE}
 
 reldist <- as.numeric(agg_crime$rel_dist)
 hist(reldist, freq=FALSE, main ="Relative Distance across Police Districts")
@@ -293,7 +293,7 @@ curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lw
 As we can see in Figure 4, looking at the data for each district separately leads to improvements but still yields only slightly better results. 
 
 **Figure 4 - Relative Distance between Crime Types and District Center for individual Police Districts**
-```{r}
+```{r, echo=FALSE}
 
 reldistind <- as.numeric(agg_crime_type$rel_dist)
 hist(reldistind, freq=FALSE, main ="Relative Distance for individual Police Districts")
@@ -301,12 +301,13 @@ curve(dnorm(x, mean=mean(reldistind), sd=sd(reldistind)), add=TRUE, col="darkblu
 
 ```
 
+Given these results, we are rethinking the use of the relative distance calculation. The absolute distance, of course, provides more diverse results.  
 
 ## Next steps 
 
-#### Graphical representation
+#### Improve Graphical representation
 
-Based on google maps, Figure 3 presents the delineation of police districts across Chicago. 
+Based on google maps, we want to present the delineation of police districts across Chicago. Additionally, we would like to include our findings on the spatial distribution of crime in this map. 
 ```{r, eval=FALSE}
 
 ## additional packages
@@ -323,19 +324,11 @@ areapoints <- fortify(area)
 head(area)
 ggmap(mapImage) + geom_polygon(aes(x = long, y = lat, group = group), data = areapoints, alpha = 0.5) + labs(x = "Longitude", y = "Latitude")
 
-
 ```
 
+#### Regression 
 
-
-
-
-
-
-
-
-
-
+As described in our proposal, we will rely on a regression to explain the occurrence of crime at specific locations as a function of the spatial allocation of police force (police stations) in a city. Our dependent variable is the occurrence of specific crimes. 
 
 
 
