@@ -7,6 +7,16 @@ output: html_document
 bibliography: literature/crimemapping_literature.bib
 ---
 
+# To-Do 
+
+## work on presentation of relative and absolute distances of crimes to district centers + include distances to police stations
+
+## Regression
+
+## for maps, use this: https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/master/LectureSlides/Lecture10/Lecture10.html#14 
+
+
+
 
 ```{r, include=FALSE}
  
