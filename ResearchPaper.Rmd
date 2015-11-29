@@ -166,7 +166,9 @@ In a first step, we calculate the centers of the police districts. Second, we wi
 boundaries <- read.dbf("RSourceFiles/PoliceDistrict.dbf")
 sids <- readShapePoly("RSourceFiles/PoliceDistrict.shp")
 PoliceDistrictCentroids = as.data.frame(gCentroid(sids,byid=TRUE))
-
+stations <- read.dbf("RSourceFiles/PoliceStationsDec2012.dbf")
+stations_ <- readShapePoints("RSourceFiles/PoliceStationsDec2012.shp")
+stations = as.data.frame(stations_)
 ```
 
 
@@ -174,9 +176,8 @@ PoliceDistrictCentroids = as.data.frame(gCentroid(sids,byid=TRUE))
 ```{r, echo=FALSE}
 ## A plot of the districts with the centroids is generated
 plot(sids)
+points(coordinates(stations_), pch=1)
 points(coordinates(sids),pch=1)
-points(PoliceDistrictCentroids,pch=2)
-
 ```
 
 
@@ -191,7 +192,6 @@ boundaries$centroid_y <- PoliceDistrictCentroids$y
 commareas_dbf <- read.dbf("RSourceFiles/CommAreas.dbf")
 commareas <- readShapePoly("RSourceFiles/CommAreas.shp")
 CommAreasCentroids <- as.data.frame(gCentroid(commareas,byid=TRUE))
-
 ```
 
 
@@ -206,7 +206,6 @@ points(CommAreasCentroids,pch=2)
 ## Information is saved onto the boundaries data frame to be then merged with the additional information
 commareas_dbf$centroid_x <- CommAreasCentroids$x
 commareas_dbf$centroid_y <- CommAreasCentroids$y
-
 ```
 
 
@@ -227,6 +226,7 @@ total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 ## Data from the boundaries and the community areas with their respective centroids is merged with the crime and census data
 total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
 total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
+total <- merge(total, stations, by.x = "District", by.y = "DIST")
 
 ### renaming
 
@@ -235,7 +235,8 @@ total$center_x <- total$centroid_x.y
 total$center_y <- total$centroid_y.y
 total$x <- total$X.Coordinate
 total$y <- total$Y.Coordinate
-
+total$st_location_x <- total$coords.x1
+total$st_location_y <- total$coords.x2
 ## Result: "total" dataframe contains 57 var. 
 
 ```
@@ -255,13 +256,16 @@ Based on our calculations of the centers of the police districts, we now calcula
 
 total$y_dist <- total$y - total$center_y
 total$x_dist <- total$x - total$center_x
+total$x_st_dist <- total$x - total$st_location_x
+total$y_st_dist <- total$y - total$st_location_y
 total$distance <- sqrt((total$x_dist)^2+(total$y_dist)^2)
+total$distance_sta <- sqrt((total$x_st_dist)^2+(total$y_st_dist)^2)
 total$count <- 1
 # NA values for distance are omitted from the analysis
 total <- total[!(is.na(total$distance)),]
+total <- total[!(is.na(total$distance_sta)),]
 
 counter <- aggregate(count ~ District, data = total, FUN=mean)
-
 ```
 
 ```{r, echo=FALSE}
@@ -287,16 +291,31 @@ for(i in counter$District)
   nam <- paste("District", i, sep = "")
   temp <- district_list[[nam]]
   temp$max_distance <- max(abs(temp$distance))
+  temp$max_distance_sta <- max(abs(temp$distance_sta))
   assign(nam, temp)
   district_list[[nam]] <- temp
 }
 
+
 ### Different data frames are appended into a single big data set again. 
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
+Crime_Data$rel_dist_sta <- Crime_Data$distance/Crime_Data$max_distance_sta
 #Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
+```
 
 
+```{r, echo=FALSE}
+##################################
+##################################
+## Close or Far away Crime
+##################################
+##################################
+## THIS SECTION DETERMINES WHETHER IF A CRIME WAS COMMITTED CLOSE OR FAR FROM THE POLICE STATION. 
+## WE MULTIPLY BY 2/3 TO CONTROL FOR THE FACT THAT THE AREA FAR 50
+
+Crime_Data$half_distance  <- 2*Crime_Data$max_distance/3
+Crime_Data$close <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
 ```
 
 ## Descriptive statistics 
@@ -315,8 +334,6 @@ agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Dat
 agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
 #agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
 agg_crime <- agg_crime[order(agg_crime$rel_dist),]
-
-
 ```
 
 

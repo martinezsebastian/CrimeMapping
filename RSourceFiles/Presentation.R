@@ -52,7 +52,7 @@ stations = as.data.frame(stations_)
 plot(sids)
 points(coordinates(stations_), pch=1)
 points(coordinates(sids),pch=1)
-points(PoliceDistrictCentroids,pch=2)
+
 
 ## Information is saved onto the boundaries data frame to be then merged with the additional information
 boundaries$centroid_x <- PoliceDistrictCentroids$x
