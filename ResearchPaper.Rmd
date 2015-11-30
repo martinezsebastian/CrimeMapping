@@ -166,17 +166,18 @@ In a first step, we calculate the centers of the police districts. Second, we wi
 boundaries <- read.dbf("RSourceFiles/PoliceDistrict.dbf")
 sids <- readShapePoly("RSourceFiles/PoliceDistrict.shp")
 PoliceDistrictCentroids = as.data.frame(gCentroid(sids,byid=TRUE))
-
+stations <- read.dbf("RSourceFiles/PoliceStationsDec2012.dbf")
+stations_ <- readShapePoints("RSourceFiles/PoliceStationsDec2012.shp")
+stations = as.data.frame(stations_)
 ```
 
 
-**Figure 1** shows a plot of the districts with the calculated centroids is generated
+**Figure 1** shows a plot with the map of Chicago. It is divided into Police Districts, the centroids of every district are presented in circles. The locations of all the police stations is presented in triangles. 
 ```{r, echo=FALSE}
 ## A plot of the districts with the centroids is generated
 plot(sids)
-points(coordinates(sids),pch=1)
-points(PoliceDistrictCentroids,pch=2)
-
+points(coordinates(stations_), pch=1)
+points(coordinates(sids),pch=2)
 ```
 
 
@@ -191,22 +192,19 @@ boundaries$centroid_y <- PoliceDistrictCentroids$y
 commareas_dbf <- read.dbf("RSourceFiles/CommAreas.dbf")
 commareas <- readShapePoly("RSourceFiles/CommAreas.shp")
 CommAreasCentroids <- as.data.frame(gCentroid(commareas,byid=TRUE))
-
 ```
 
 
-**Figure 2** shows the Community Districts (on which the Census Data is based) with the centroids. 
+**Figure 2** shows the Community Districts (on which the Census Data is based) with the centers of the districts and the centers of the . 
 ```{r, echo=FALSE}
 
 ## A plot of the community districts with the centroids is generated
 plot(commareas)
-points(coordinates(commareas),pch=1)
-points(CommAreasCentroids,pch=2)
+points(CommAreasCentroids,pch=1)
 
 ## Information is saved onto the boundaries data frame to be then merged with the additional information
 commareas_dbf$centroid_x <- CommAreasCentroids$x
 commareas_dbf$centroid_y <- CommAreasCentroids$y
-
 ```
 
 
@@ -227,6 +225,7 @@ total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 ## Data from the boundaries and the community areas with their respective centroids is merged with the crime and census data
 total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
 total <- merge(total, commareas_dbf, by.x = "Community.Area", by.y = "AREA_NUM_1")
+total <- merge(total, stations, by.x = "District", by.y = "DIST")
 
 ### renaming
 
@@ -235,7 +234,8 @@ total$center_x <- total$centroid_x.y
 total$center_y <- total$centroid_y.y
 total$x <- total$X.Coordinate
 total$y <- total$Y.Coordinate
-
+total$st_location_x <- total$coords.x1
+total$st_location_y <- total$coords.x2
 ## Result: "total" dataframe contains 57 var. 
 
 ```
@@ -255,13 +255,16 @@ Based on our calculations of the centers of the police districts, we now calcula
 
 total$y_dist <- total$y - total$center_y
 total$x_dist <- total$x - total$center_x
+total$x_st_dist <- total$x - total$st_location_x
+total$y_st_dist <- total$y - total$st_location_y
 total$distance <- sqrt((total$x_dist)^2+(total$y_dist)^2)
+total$distance_sta <- sqrt((total$x_st_dist)^2+(total$y_st_dist)^2)
 total$count <- 1
 # NA values for distance are omitted from the analysis
 total <- total[!(is.na(total$distance)),]
+total <- total[!(is.na(total$distance_sta)),]
 
 counter <- aggregate(count ~ District, data = total, FUN=mean)
-
 ```
 
 ```{r, echo=FALSE}
@@ -287,14 +290,52 @@ for(i in counter$District)
   nam <- paste("District", i, sep = "")
   temp <- district_list[[nam]]
   temp$max_distance <- max(abs(temp$distance))
+  temp$max_distance_sta <- max(abs(temp$distance_sta))
   assign(nam, temp)
   district_list[[nam]] <- temp
 }
 
+
 ### Different data frames are appended into a single big data set again. 
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
+Crime_Data$rel_dist_sta <- Crime_Data$distance/Crime_Data$max_distance_sta
 #Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
+```
+
+
+```{r, echo=FALSE}
+##################################
+##################################
+## Close or Far away Crime
+##################################
+##################################
+## THIS SECTION DETERMINES WHETHER IF A CRIME WAS COMMITTED CLOSE OR FAR FROM THE POLICE STATION. 
+## WE MULTIPLY BY 2/3* TO CONTROL FOR THE FACT THAT REDUCING THE AREA RADIUS OF THE CIRCLE BY 50% DOES NOT 
+## A REDUCTION IN 50% OF THE AREA 
+## THIS IS A ROUGH ESTIMATION
+## CLOSE REPRESENTS WHETHER A CRIME IS COMMITTED CLOSE OR FAR
+
+Crime_Data$half_distance  <- 2*Crime_Data$max_distance/3
+Crime_Data$close <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
+
+##################################
+##################################
+#CRIME GROUPING
+# CRIMES THAT WERE CONSIDERED VIOLENT
+#"ASSAULT"
+#"BATTERY"
+#"CRIM SEXUAL ASSAULT"
+#"HOMICIDE"
+#"INTIMIDATION"
+#"KIDNAPPING"
+#"OFFENSE INVOLVING CHILDREN"
+#"ROBBERY"
+#"SEX OFFENSE"
+##################################
+## CRIMES ARE GROUPED INTO TWO DIFFERENT GROUPS. MORE GROUPS WILL BE ADDED. 
+##################################
+Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ASSAULT" | Crime_Data$Primary.Type=="BATTERY" | Crime_Data$Primary.Type=="CRIM SEXUAL ASSAULT" | Crime_Data$Primary.Type=="HOMICIDE" | Crime_Data$Primary.Type=="INTIMIDATION" | Crime_Data$Primary.Type=="KIDNAPPING" | Crime_Data$Primary.Type=="OFFENSE INVOLVING CHILDREN" | Crime_Data$Primary.Type=="ROBBERY" | Crime_Data$Primary.Type=="SEX OFFENSE", 1,0)
 
 
 ```
@@ -304,8 +345,6 @@ Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
 ### Crime data
 
 ```{r, echo=FALSE}
-
-
 # Aggregate descriptive statistics
 ## A "Collapse" is done on the relative distance by District and by typ of crime, and then
 ## only to types of crime to see if there is a relationship between their occurence in relation to the 
@@ -313,19 +352,41 @@ Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
 agg_crime_type <- aggregate(rel_dist ~ District*Primary.Type, data=Crime_Data, FUN=mean)
 agg_crime_type$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
 agg_crime <- aggregate(rel_dist ~ Primary.Type, data=agg_crime_type, FUN=mean)
-#agg_crime$count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime_count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime <- merge(agg_crime, agg_crime_count, by = "Primary.Type")
 agg_crime <- agg_crime[order(agg_crime$rel_dist),]
+#write.csv(agg_crime, "agg_crime.csv")
 
-
+# Aggregate descriptive statistics
+## A "Collapse" is done on the relative distance by District and by typ of crime, and then
+## only to types of crime to see if there is a relationship between their occurence in relation to the 
+## border of the district. 
+agg_crime_type_sta <- aggregate(rel_dist_sta ~ District*Primary.Type, data=Crime_Data, FUN=mean)
+agg_crime_type_sta$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime_sta <- aggregate(rel_dist_sta ~ Primary.Type, data=agg_crime_type_sta, FUN=mean)
+agg_crime_sta_count <- aggregate(count ~ Primary.Type, data=Crime_Data, FUN=sum)
+agg_crime_sta <- merge(agg_crime_sta, agg_crime_sta_count, by = "Primary.Type")
+agg_crime_sta <- agg_crime_sta[order(agg_crime_sta$rel_dist_sta),]
+#write.csv(agg_crime_sta, "agg_crime_sta.csv")
 ```
 
 
 ```{r kable, echo=FALSE}
-
-library(knitr)
-kable(as.matrix(agg_crime), digits = 2, caption = "Aggregate Crime Statistics (Relative Distance to Policy District Center accross all Districts") 
-
+table_temp <- agg_crime
+table_temp$distance_from_border_type <- agg_crime$Primary.Type
+table_temp$distance_from_border <- agg_crime$rel_dist
+table_temp$distance_to_station_type <- agg_crime_sta$Primary.Type
+table_temp$distance_to_station <- agg_crime_sta$rel_dist_sta
+table_temp$distance_from_border_number <- agg_crime$count
+table_temp$distance_to_station_number <- agg_crime_sta$count
+subdata1 <- c("distance_from_border_type", "distance_from_border_number")
+subdata2 <- c("distance_from_border_type", "distance_from_border", "distance_to_station_type", "distance_to_station")
+table1 <- table_temp[subdata1]
+table2 <- table_temp[subdata2]
+kable(as.matrix(table1), digits = 2, caption = "Aggregate Crime Statistics (Number of crimes committed in every District accross all types") 
+kable(as.matrix(table2), digits = 2, caption = "Aggregate Crime Statistics (Relative Distance to Policy Station and to District Center accross all crime types") 
 ```
+As you can observe from the previous table, the information contained in the last table, the distances for the location of the crimes changes with respect of the center point (unsurprising, given the fact that these two are not located in the same place whithin the district). However, it is interesting to notice which kinds of crimes tend to occur farther away from the center of the district, as well as which ones tend to occur farther away from where the stations is located.
 
 
 
@@ -355,6 +416,23 @@ curve(dnorm(x, mean=mean(reldistind), sd=sd(reldistind)), add=TRUE, col="darkblu
 
 ```
 
+**Figure 5 - Relative Distance between Crime Types and District Center across Police Districts**
+```{r, echo=FALSE}
+reldiststa <- as.numeric(agg_crime_type_sta$rel_dist_sta)
+hist(reldiststa, freq=FALSE, main ="Relative Distance to Police Station")
+curve(dnorm(x, mean=mean(reldiststa), sd=sd(reldiststa)), add=TRUE, col="darkblue", lwd=2) 
+
+```
+
+**Figure 6 - Relative Distance between Crime Types and District Center for individual Police Districts**
+```{r, echo=FALSE}
+
+reldistindsta <- as.numeric(agg_crime_type_sta$rel_dist_sta)
+hist(reldistindsta, freq=FALSE, main ="Relative Distance for individual Police Districts")
+curve(dnorm(x, mean=mean(reldistindsta), sd=sd(reldistindsta)), add=TRUE, col="darkblue", lwd=2) 
+```
+
+Figure 5 and Figure 6 show the same distributions as Figure 3 and Figure 4, but using the distance to the Police Station as center point. 
 
 ## Next steps 
 
@@ -439,8 +517,16 @@ For the regression, we have to control for the specific characteristics of the p
 - Crime reporting practices of the citizenry.
 
 
+```{r, echo=FALSE}
+### MODELS ARE CREATED AND SUMMARY STATISTICS FOR THE MODELS ARE PRESENTED
+violent_probit1 <- glm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, family=binomial(link="probit"), data=Crime_Data)
+violent_probit2 <- glm(Crime_Data$close ~  Crime_Data$violent + as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
+violent_model1 <- lm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
+summary(violent_probit2)
+summary(violent_model1)
 
+```
 
-
+## Works Cited
 
 
