@@ -1,0 +1,39 @@
+Based on google maps, we want to present the delineation of police districts across Chicago. Additionally, we would like to include our findings on the spatial distribution of crime in this map. 
+```{r google maps, echo=FALSE}
+
+
+## Source map from google maps & add data points
+
+
+ChicagoMap <- qmap("Chicago", zoom = 11, maptype = "toner", source = "stamen")
+                   
+##ChicagoMap <- get_map(location = c(lon = -87.6747987, lat = 41.9654501), zoom = 10, maptype = "toner", source = "stamen")
+
+FinalMap <- ChicagoMap +
+                geom_point(aes(x = District20$Longitude, y = District20$Latitude, colour = District20$Primary.Type, size = District20$Primary.Type),
+                data = District20) +
+                xlab('') + ylab('') +
+                theme(axis.ticks = element_blank(), 
+                      axis.text.x = element_blank(),
+                      axis.text.y = element_blank()) + 
+                guides(size = guide_legend(title = 'Offense'),
+                       colour = guide_legend(title = 'Offense'))
+print(FinalMap)
+
+##print(ChicagoMap)
+
+
+
+```
+
+```{r}
+
+##old code for map creation as reference (DELETE!)
+gpclibPermit()
+area <- readShapePoly("RSourceFiles/PoliceDistrict.shp")
+mapImage <- get_map(location = c(lon = -87.6, lat = 41.8), color = "color", source = "google", zoom = 10)
+areapoints <- fortify(area)
+head(area)
+ggmap(mapImage) + geom_polygon(aes(x = long, y = lat, group = group), data = areapoints, alpha = 0.5) + labs(x = "Longitude", y = "Latitude")
+
+```

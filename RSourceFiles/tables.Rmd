@@ -1,0 +1,13 @@
+---
+title: "Untitled"
+author: "fabianbohnenberger"
+date: "30. November 2015"
+output: html_document
+---
+
+reldist <- as.numeric(agg_crime$rel_dist)
+hist(reldist, freq=FALSE, main ="Relative Distance across Police Districts")
+curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lwd=2) 
+
+
+
