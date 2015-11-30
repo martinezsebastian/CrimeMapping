@@ -379,7 +379,42 @@ ggmap(mapImage) + geom_polygon(aes(x = long, y = lat, group = group), data = are
 
 ```
 
+
+## Inferential Statistics
+
+## Creating Dummy variable for Close and Far 
+
+dividing max. distance by 2 => assigning close and far dummy var. 
+
+2/3 of the distance => 
+
+
+## Grouping crimes in categories 
+
+### Violent/Non-violent
+
+### Persons/Property
+
+### Money/Non-money
+
+
+
 #### Regression 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 As described in our proposal, we will rely on a regression to explain the occurrence of crime at specific locations as a function of the spatial allocation of police force (police stations) in a city. Our dependent variable is the occurrence of specific crimes. 
 
