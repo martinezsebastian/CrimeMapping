@@ -390,7 +390,7 @@ curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lw
 
 ```
 
-As we can see in **Figure 4**, looking at the data for each crime type and district separately leads to significant improvements. The figure includes all calculated average distances that were alculated on a district-by-district basis. We will have to assess differences in the spatial distribution of crime (in terms of distance from the police district center) for each district in a next step. 
+As we can see in **Figure 4**, looking at the data for each crime type and district separately leads to significant improvements. The figure includes all calculated average distances that were calculated on a district-by-district basis. We will have to assess differences in the spatial distribution of crime (in terms of distance from the police district center) for each district in a next step. 
 
 **Figure 4 - Relative Distance between Crime Types and District Center for individual Police Districts**
 ```{r, echo=FALSE}
@@ -416,6 +416,7 @@ curve(dnorm(x, mean=mean(exampledist), sd=sd(exampledist)), add=TRUE, col="darkb
 
 
 #Here more disaggregated description of data (example districts?,bar graphs??)
+
 
 
 
@@ -451,6 +452,7 @@ curve(dnorm(x, mean=mean(reldistindsta), sd=sd(reldistindsta)), add=TRUE, col="d
 
 
 
+
 ## Inferential Statistics
 
 ### Splitting Crimes in Close and Far 
@@ -479,7 +481,7 @@ To compare the effects of the location of the police station on different types 
 ```{r, echo=FALSE}
 
 ## Loading Illinois Uniform Crime Reporting (IUCR) codes
-CrimeCodes <- import("https://data.cityofchicago.org/resource/c7ck-438e.json")
+##CrimeCodes <- import("https://data.cityofchicago.org/resource/c7ck-438e.json")
 
 ```
 
@@ -527,7 +529,7 @@ Second, we create a category which distinguishes between crimes directed predomi
 
 ##creating a dummy variable for crime directed at person or property (property = 1)
 
-Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ARSON" | Crime_Data$Primary.Type=="BURGLARY" | Crime_Data$Primary.Type=="CRIMINAL DAMAGE" | Crime_Data$Primary.Type=="CRIMINAL TRESPASS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT", 1,0)
+Crime_Data$property <- ifelse(Crime_Data$Primary.Type=="ARSON" | Crime_Data$Primary.Type=="BURGLARY" | Crime_Data$Primary.Type=="CRIMINAL DAMAGE" | Crime_Data$Primary.Type=="CRIMINAL TRESPASS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT", 1,0)
 
 ```
 
@@ -550,7 +552,7 @@ Third, we differentiate whether there is a significant monetary incentive involv
 
 ##creating a dummy variable for money component (money-related = 1)
 
-Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION" | Crime_Data$Primary.Type=="NARCOTICS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT" | Crime_Data$Primary.Type=="DECEPTIVE PRACTICE" | Crime_Data$Primary.Type=="GAMBLING", 1,0)
+Crime_Data$money <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION" | Crime_Data$Primary.Type=="NARCOTICS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT" | Crime_Data$Primary.Type=="DECEPTIVE PRACTICE" | Crime_Data$Primary.Type=="GAMBLING", 1,0)
 
 ```
 
@@ -567,11 +569,66 @@ For the regression, we have to control for the specific characteristics of the p
 #### Model 1 - 
 
 
+```{r Zelig 1, echo=FALSE}
+
+
+##defining variables 
+PerCapitaIncome <- as.integer(Crime_Data$per_capita_income_)
+Over16Unemployed <- as.integer(Crime_Data$percent_aged_16_unemployed)
+CrimeIsViolent <- as.factor(Crime_Data$violent)
+CrimeIsClose <- Crime_Data$close
+
+x <- list(PerCapitaIncome, Over16Unemployed, CrimeIsViolent, CrimeIsClose)
+CrimeData <- as.data.frame(x)
+
+
+library(Zelig)
+Z1 <- zelig(CrimeIsClose ~ PerCapitaIncome + Over16Unemployed + CrimeIsViolent, cite = FALSE, data = CrimeData, model = 'logit')
+
+summary(Z1)
+
+# setting fitted values
+
+setZ1 <- setx(Z1, Over16Unemployed = 4:22)
+
+##Run simulation 
+simZ1 <- sim(Z1, x = setZ1, num = 500)
+
+plot(simZ1)
+
+
+
+
+
+```
+
+
+
 
 
 
 
 #### Model 2 - 
+
+
+https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/cd857308ab8abdfc9a85de1c31a8955dd74f826a/LectureSlides/Lecture8/Lecture8.html#38 
+
+
+https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#17
+
+https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#23 
+
+https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#62
+
+```{r}
+
+
+
+
+```
+
+
+
 
 
 
@@ -591,6 +648,11 @@ summary(violent_probit2)
 
 summary(violent_model1)
 
+#plot(violent_model1, which = 1)
+
+#plot(violent_model1, which = 2)
+
+#car::scatterplotMatrix(enterdataframe)
 ```
 
 ## Bibliography 
