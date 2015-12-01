@@ -10,4 +10,32 @@ hist(reldist, freq=FALSE, main ="Relative Distance across Police Districts")
 curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lwd=2) 
 
 
+```{r kable Table 1, echo=FALSE}
+library(knitr)
 
+
+table_temp <- agg_crime
+table_temp$distance_from_border_type <- agg_crime$Primary.Type
+table_temp$distance_from_border <- agg_crime$rel_dist
+table_temp$distance_to_station_type <- agg_crime_sta$Primary.Type
+table_temp$distance_to_station <- agg_crime_sta$rel_dist_sta
+table_temp$distance_from_border_number <- agg_crime$count
+table_temp$distance_to_station_number <- agg_crime_sta$count
+subdata1 <- c("distance_from_border_type", "distance_from_border_number")
+subdata2 <- c("distance_from_border_type", "distance_from_border", "distance_to_station_type", "distance_to_station")
+
+table1 <- table_temp[subdata1]
+table2 <- table_temp[subdata2]
+
+kable(as.matrix(table1), digits = 2, caption = "Table 1 - Number of Reported Crimes (All Districts, All Crime Types)", row.names = NA) 
+```
+
+| Crime Type | Description |
+|------------|-------------|
+|"PROSTITUTION "|Acts contrary to accepted public order sexual standards on prostitution.|
+|"NARCOTICS"|Unlawful   handling, possession   or   use   of controlled drugs   or precursors for    personal    consumption    and    for    non-personal consumption.|
+|"THEFT"|Unlawful   taking   or   obtaining   of   property   with   the   intent   to permanently   deprive   it   from   a   person   or   organization   without consent  and  without  the  use  of  force,  threat  of  force  or  violence, coercion or deception. |
+|"MOTOR VEHICLE THEFT"|See theft.|
+|"THEFFT"|Unwanted sexual act, attempt to obtain a sexual act, or contact or communication with unwanted sexual attention not amounting to rape. (Inflicted upon a person with force)|
+|"DECEPTIVE PRACTICE"|Obtaining  money  or  other  benefit  or  evading  a  liability through deceit or dishonest conduct.|
+|"GAMBLING"|Acts  against  regulations, restrictions  or  prohibitions  on  betting  and gambling.|

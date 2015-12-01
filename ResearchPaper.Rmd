@@ -11,7 +11,6 @@ bibliography: literature/crimemapping_literature.bib
  
 ## NOTE: Running this file may take a few minutes because R will load ~340.000 observations (crime in the year 2012).
 
-
 ## Working Directory ##
 
 # Create list of used working directories
@@ -236,7 +235,7 @@ total$st_location_y <- total$coords.x2
 
 ## Calculating the distance of crimes
 
-To determine which crimes occur closer to the border of each district, and hence farther away from the location of the police station for that district, we calculate two distances: First, based on our calculations of the centers of the police districts, we estimate the distance between the location of each crime and the center of the police district. Second, we determine the distance between the crime scene and the police station. 
+To determine which crimes occur closer to the border of each district, and hence farther away from the location of the police station for that district, we calculate two distances: First, based on our calculations of the police district centers, we estimate the distance between the location of each crime and the center of the police district. Second, we determine the distance between the crime scene and the police station. 
 
 We calculate both distances in two ways: 
 
@@ -302,6 +301,8 @@ Crime_Data$rel_dist_sta <- Crime_Data$distance/Crime_Data$max_distance_sta
 
 ## Descriptive statistics 
 
+This section is used to describe the data on which our analysis is based and present trends and interesting cases on an aggregated (across districts) and disaggregated level. We also test the explanatory value of the *relative* distance calculation in this section. 
+
 ### Aggregate Crime Statistics
 
 ```{r, echo=FALSE}
@@ -322,10 +323,7 @@ agg_crime <- agg_crime[order(agg_crime$rel_dist),]
 
 
 
-# Aggregate descriptive statistics
-## A "Collapse" is done on the relative distance by District and by typ of crime, and then
-## only to types of crime to see if there is a relationship between their occurence in relation to the 
-## border of the district. 
+## This section repeats the same for the distance between crime and police station. 
 
 agg_crime_type_sta <- aggregate(rel_dist_sta ~ District*Primary.Type, data=Crime_Data, FUN=mean)
 agg_crime_type_sta$number <- aggregate(count ~ District*Primary.Type, data=Crime_Data, FUN=sum)
@@ -357,46 +355,42 @@ table2 <- table_temp[subdata2]
 
 ```
 
-**Table 1** shows the types of crimes included in the City of Chicago dataset with their respective number of reported instances for the year 2012. The data presents all districts and all crime types. 
+**Table 1** shows the types of crimes included in the City of Chicago dataset with the respective number of reported instances for the year 2012. The table presents the data for all districts and all crime types. It is important that a some categories contain very few observations. Therefore, any inferences based on these categories will neccessarily be less statistically significant. We omit these categories in the inferential part of our analysis.
 
 ```{r kable Table 1, echo=FALSE}
-kable(as.matrix(table1), digits = 2, caption = "Number of crimes committed in every District accross all types") 
+kable(as.matrix(table1), digits = 2, caption = "Table 1 - Number of Reported Crimes (All Districts, All Crime Types)") 
+
+## , row.names = NA, col.names = colnamesTable1(Crime_Types, Reported_Crimes)
 ```
 
-**Table 2** presents the *relative* distance between crime scene and Police Station as well as to the police district center. The table again shows all crime types and presents the average across all districts. 
+**Table 2** presents the *relative* distance between crime scene and police station as well as the *relative* distance between crime scene and the calculated police district center. The table again shows all crime types and presents the average across all districts. 
 
 ```{r kable Table 2, echo=FALSE}
-kable(as.matrix(table2), digits = 2, caption = "Relative Distance to Policy Station and to District Center accross all crime types") 
+kable(as.matrix(table2), digits = 2, caption = "Table 2 - Relative Distance to Policy Station and to District Center (Accross All Districts, All Crime Types)") 
 
 ```
 
 
-As shown in **Table 2**, the distances are not the same, but lead to overall similar results. Differences occur because the police station is not always located at the center of the district, as it is calculated in this analysis. 
+As shown in **Table 2**, the *relative* distances in both columns are not the same, but lead to overall similar results. Differences occur because the police station is not always located at the center of the district, as it is calculated in this analysis. 
 
 It is interesting to compare which crimes tend to occur farther away from the center of the district, as well as which ones tend to occur farther away from where the stations is located. It is, for example, noteworthy that prositiution, sexual criminal assault and sex offense seem to occur farther away from the police station or the district center in both measurements. On the other hand, arson and stalking tend to be reported at closer distances to the center. 
 
-However, this aggregated level clearly does not allow for much variation in the relative distances. Most of the observations are clustered around very similar values. A closer look at more disaggregated data seems to be necessary to discover spatial patterns of the perpetration of crime on the district level. 
+However, this aggregated level clearly does not allow for much variation in the relative distances. Most of the observations are clustered around very similar values, which becomes especially visible in **Figure 3**. A closer look at more disaggregated data seems to be necessary to discover spatial patterns of the perpetration of crime on the district level. 
 
-#Here more disaggregated description of data (example districts?,bar graphs??)
+### Disaggregated Crime Statistics 
 
-
-
-### Evaluation of relative distance variable 
-
-But first, we need to test wheter our caluclation of *relative* distances of certain crimes to the crime farthest away per district adds value to our statistical analysis. 
-
-As Figure 3 shows, the relative distance for crime types across all districts is not significantly distributed to make inferences about the occurence of specific crimes. We need to look at more disaggregated data to find differences in the spatial distribution of crime. 
+As **Figure 3** shows, the relative distance for crime types across all districts is not significantly distributed to make inferences about the occurence of specific crimes. We need to look at more disaggregated data to find differences in the spatial distribution of crime. 
 
 **Figure 3 - Relative Distance between Crime Types and District Center across Police Districts**
 ```{r, echo=FALSE}
 
 reldist <- as.numeric(agg_crime$rel_dist)
-hist(reldist, freq=TRUE, main ="Relative Distance across Police Districts")
+hist(reldist, freq=TRUE, main ="Relative Distance as Average across all Police Districts")
 curve(dnorm(x, mean=mean(reldist), sd=sd(reldist)), add=TRUE, col="darkblue", lwd=2) 
 
 ```
 
-As we can see in Figure 4, looking at the data for each district separately leads to some improvements. We will have to assess differences in the spatial distribution of crime (in terms of distance from the police district center) for each district in a next step. 
+As we can see in **Figure 4**, looking at the data for each crime type and district separately leads to significant improvements. The figure includes all calculated average distances that were alculated on a district-by-district basis. We will have to assess differences in the spatial distribution of crime (in terms of distance from the police district center) for each district in a next step. 
 
 **Figure 4 - Relative Distance between Crime Types and District Center for individual Police Districts**
 ```{r, echo=FALSE}
@@ -406,6 +400,30 @@ hist(reldistind, freq=TRUE, main ="Relative Distance for individual Police Distr
 curve(dnorm(x, mean=mean(reldistind), sd=sd(reldistind)), add=TRUE, col="darkblue", lwd=2) 
 
 ```
+
+
+**Figure 5 - Example District**
+
+```{r, echo=FALSE}
+
+exampledist <- as.numeric(agg_crime_type$rel_dist)
+hist(exampledist, freq=TRUE, main ="Relative Distance for individual Police Districts")
+curve(dnorm(x, mean=mean(exampledist), sd=sd(exampledist)), add=TRUE, col="darkblue", lwd=2) 
+
+## change to show rel. distance in one or two representative sectors (!) + table 
+
+```
+
+
+#Here more disaggregated description of data (example districts?,bar graphs??)
+
+
+
+
+
+### Evaluation of relative distance variable 
+
+This secction evaluates wheter our caluclation of *relative* distances of certain crimes to the crime farthest away per district adds value to our statistical analysis. 
 
 
 
@@ -449,9 +467,14 @@ Crime_Data$close <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
 
 ```
 
-### Establishing groups of crimes 
+#Include sample graphic showing one district with dots =crimes and circle######################
 
-To compare the effects of the location of the police station on different types of crime, we create different groups of crimes from our data. Although we cannot be sure that all observations represent the group criteria to the fullest degree (e.g. all crimes in the category "violent" necessarily included the application of violence), the categories were created based on widely-used classifications of crime, including the International Classification of Crime for Statistical Purposes developed by the United Nations Office of Drugs and Crime and the Chicago Police Department - Illinois Uniform Crime Reporting (IUCR) codes. 
+
+
+
+### Establishing crime categories 
+
+To compare the effects of the location of the police station on different types of crime, we create different groups of crimes from our data. Although we cannot be sure that all observations represent the group criteria to the fullest degree (e.g. all crimes in the category "violent" necessarily included the application of violence), the categories were created based on widely-used classifications of crime, including the [International Classification of Crime for Statistical Purposes](https://www.unodc.org/documents/data-and-analysis/statistics/crime/ICCS/ICCS_Draft_for_consultation_August_2014.pdf) developed by the United Nations Office of Drugs and Crime and the Chicago Police Department - Illinois Uniform Crime Reporting (IUCR) codes. 
 
 ```{r, echo=FALSE}
 
@@ -479,10 +502,10 @@ First, we distinguish between violent and non-violent crime. Based on our data f
 
 ##creating a dummy variable for violent and non-violent crime (violent = 1)
 
-Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ASSAULT" | Crime_Data$Primary.Type=="BATTERY" | Crime_Data$Primary.Type=="CRIM SEXUAL ASSAULT" | Crime_Data$Primary.Type=="HOMICIDE" | Crime_Data$Primary.Type=="INTIMIDATION" | Crime_Data$Primary.Type=="KIDNAPPING" | Crime_Data$Primary.Type=="OFFENSE INVOLVING CHILDREN" | Crime_Data$Primary.Type=="ROBBERY" | Crime_Data$Primary.Type=="SEX OFFENSE", 1,0)
+Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ASSAULT" | Crime_Data$Primary.Type=="BATTERY" | Crime_Data$Primary.Type=="CRIM SEXUAL ASSAULT" | Crime_Data$Primary.Type=="HOMICIDE" | Crime_Data$Primary.Type=="KIDNAPPING" | Crime_Data$Primary.Type=="OFFENSE INVOLVING CHILDREN" | Crime_Data$Primary.Type=="ROBBERY", 1,0)
 
 
-## EXCLUDE INtimidation (!) and sex offense  (!)
+## EXCLUDED INtimidation (!) and sex offense  (!)####################################
 
 ```
 
@@ -492,13 +515,21 @@ Second, we create a category which distinguishes between crimes directed predomi
 
 | Crime Type | Description |
 |------------|-------------|
-|"ASSAULT"|Intentional  or  reckless  application  of  physical force  inflicted  upon the body of a person resulting in serious bodily injury.|
-|"BATTERY"|See Assault.
-|"CRIM SEXUAL ASSAULT"|Unwanted sexual act, attempt to obtain a sexual act, or contact or communication with unwanted sexual attention not amounting to rape. (Inflicted upon a person with force)|
-|"HOMICIDE"|Unlawful  death  inflicted  upon  a  person with  the  intent  to  cause death or serious injury.|
-|"KIDNAPPING"|Unlawful detainment and taking away of a person or persons against their will (including through the use of   force, threat, fraud or enticement)|
-|"OFFENSE INVOLVING CHILDREN"|Police IUCR coding indicates predominantely violent character.|
-|"ROBBERY"|Unlawful taking or obtaining property with the use of force or threat of   force.|
+|"ARSON"|Willful destruction, damage, or defacement of property.|
+|"BURGLARY"|Gaining unauthorized access to a part of a building or other premises, with the intent to commit theft.|
+|"CRIMINAL DAMAGE"|Intentional destruction, damage, or defacement of public property.|
+|"CRIMINAL TRESPASS"|Unlawful  appropriation  of   property;  squatting;   unlawful acquisition  of  housing  or  land; criminal  trespass|
+|"THEFT"|Unlawful   taking   or   obtaining   of   property   with   the   intent   to permanently   deprive   it   from   a   person   or   organization   without consent  and  without  the  use  of  force,  threat  of  force  or  violence, coercion or deception. |
+|"MOTOR VEHICLE THEFT"|See theft.|
+
+
+```{r Creating Property Dummy, echo=FALSE}
+
+##creating a dummy variable for crime directed at person or property (property = 1)
+
+Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ARSON" | Crime_Data$Primary.Type=="BURGLARY" | Crime_Data$Primary.Type=="CRIMINAL DAMAGE" | Crime_Data$Primary.Type=="CRIMINAL TRESPASS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT", 1,0)
+
+```
 
 #### Money/Non-money
 
@@ -506,14 +537,22 @@ Third, we differentiate whether there is a significant monetary incentive involv
 
 | Crime Type | Description |
 |------------|-------------|
-|"ASSAULT"|Intentional  or  reckless  application  of  physical force  inflicted  upon the body of a person resulting in serious bodily injury.|
-|"BATTERY"|See Assault.
-|"CRIM SEXUAL ASSAULT"|Unwanted sexual act, attempt to obtain a sexual act, or contact or communication with unwanted sexual attention not amounting to rape. (Inflicted upon a person with force)|
-|"HOMICIDE"|Unlawful  death  inflicted  upon  a  person with  the  intent  to  cause death or serious injury.|
-|"KIDNAPPING"|Unlawful detainment and taking away of a person or persons against their will (including through the use of   force, threat, fraud or enticement)|
-|"OFFENSE INVOLVING CHILDREN"|Police IUCR coding indicates predominantely violent character.|
-|"ROBBERY"|Unlawful taking or obtaining property with the use of force or threat of   force.|
+|"PROSTITUTION "|Acts contrary to accepted public order sexual standards on prostitution.|
+|"NARCOTICS"|Unlawful   handling, possession   or   use   of controlled drugs   or precursors for    personal    consumption    and    for    non-personal consumption.|
+|"THEFT"|Unlawful   taking   or   obtaining   of   property   with   the   intent   to permanently   deprive   it   from   a   person   or   organization   without consent  and  without  the  use  of  force,  threat  of  force  or  violence, coercion or deception. |
+|"MOTOR VEHICLE THEFT"|See theft.|
+|"THEFFT"|Unwanted sexual act, attempt to obtain a sexual act, or contact or communication with unwanted sexual attention not amounting to rape. (Inflicted upon a person with force)|
+|"DECEPTIVE PRACTICE"|Obtaining  money  or  other  benefit  or  evading  a  liability through deceit or dishonest conduct.|
+|"GAMBLING"|Acts  against  regulations, restrictions  or  prohibitions  on  betting  and gambling.|
 
+
+```{r Creating Money Dummy, echo=FALSE}
+
+##creating a dummy variable for money component (money-related = 1)
+
+Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION" | Crime_Data$Primary.Type=="NARCOTICS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT" | Crime_Data$Primary.Type=="DECEPTIVE PRACTICE" | Crime_Data$Primary.Type=="GAMBLING", 1,0)
+
+```
 
 ### Regression 
 
@@ -541,10 +580,15 @@ For the regression, we have to control for the specific characteristics of the p
 
 ```{r, echo=FALSE}
 ### MODELS ARE CREATED AND SUMMARY STATISTICS FOR THE MODELS ARE PRESENTED
+
 violent_probit1 <- glm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, family=binomial(link="probit"), data=Crime_Data)
+
 violent_probit2 <- glm(Crime_Data$close ~  Crime_Data$violent + as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
+
 violent_model1 <- lm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
+
 summary(violent_probit2)
+
 summary(violent_model1)
 
 ```
