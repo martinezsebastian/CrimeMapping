@@ -174,31 +174,61 @@ Crime_Data$far <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
 ##################################
 Crime_Data$violent <- ifelse(Crime_Data$Primary.Type=="ASSAULT" | Crime_Data$Primary.Type=="BATTERY" | Crime_Data$Primary.Type=="CRIM SEXUAL ASSAULT" | Crime_Data$Primary.Type=="HOMICIDE" | Crime_Data$Primary.Type=="INTIMIDATION" | Crime_Data$Primary.Type=="KIDNAPPING" | Crime_Data$Primary.Type=="OFFENSE INVOLVING CHILDREN" | Crime_Data$Primary.Type=="ROBBERY" | Crime_Data$Primary.Type=="SEX OFFENSE", 1,0)
 
+##################################
+##################################
+## CRIMES CONSIDERED PROPERTY CRIMES
+##################################
+##################################
 
 Crime_Data$property <- ifelse(Crime_Data$Primary.Type=="ARSON" | Crime_Data$Primary.Type=="BURGLARY" | Crime_Data$Primary.Type=="CRIMINAL DAMAGE" | Crime_Data$Primary.Type=="CRIMINAL TRESPASS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT", 1,0)
 
+##################################
+##################################
+## CRIMES CONSIDERED PROPERTY MONEY
+##################################
+##################################
 
 Crime_Data$money <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION" | Crime_Data$Primary.Type=="NARCOTICS" | Crime_Data$Primary.Type=="THEFT" | Crime_Data$Primary.Type=="MOTOR VEHICLE THEFT" | Crime_Data$Primary.Type=="DECEPTIVE PRACTICE" | Crime_Data$Primary.Type=="GAMBLING", 1,0)
 ###################
 
+
+##################################
+##################################
+## THIS IS THE PROBIT THAT WORKS
+##################################
+##################################
 violent_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(violent), family=binomial(link="probit"), data=Crime_Data)
 
-
+##################################
+##################################
+## THESE ARE THE OTHER VERSIONSOF THE VIOLENT PROBIT
+##################################
+##################################
 violent_probit2 <- glm(Crime_Data$far ~  Crime_Data$violent + as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
 violent_probit3 <- glm(Crime_Data$far ~  as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
 violent_model1 <- lm(Crime_Data$far ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
 summary(violent_probit1)
 summary(violent_model1)
 
+
+##################################
+##################################
+## FITTED VALUES!!!!
+##################################
+##################################
+
+## VIOLENT
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), violent = factor(0:1))) 
 fitted$predicted <- predict(violent_probit1, newdata = fitted, type = 'response', interval='confidence')
 kable(fitted)
 
+## PROPERTY
 property_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), property = factor(0:1))) 
 fitted$predicted <- predict(property_probit1, newdata = fitted, type = 'response', interval='confidence')
 kable(fitted)
 
+## MONEY
 money_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(money), family=binomial(link="probit"), data=Crime_Data)
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), money = factor(0:1))) 
 fitted$predicted <- predict(money_probit1, newdata = fitted, type = 'response', interval='confidence')
