@@ -22,7 +22,7 @@ library(plyr)
 library(GISTools)
 library(rgeos)
 library(knitr)
-
+library(Zelig)
 
 
 
@@ -143,7 +143,7 @@ for(i in counter$District)
 ### Different data frames are appended into a single big data set again. 
 Crime_Data <- ldply(district_list, data.frame)
 Crime_Data$rel_dist <- Crime_Data$distance/Crime_Data$max_distance
-Crime_Data$rel_dist_sta <- Crime_Data$distance/Crime_Data$max_distance_sta
+Crime_Data$rel_dist_sta <- Crime_Data$distance_sta/Crime_Data$max_distance_sta
 #Crime_Data <- Crime_Data[order(Crime_Data$rel_dist),]
 
 
@@ -182,6 +182,58 @@ violent_probit2 <- glm(Crime_Data$close ~  Crime_Data$violent + as.integer(Crime
 violent_model1 <- lm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
 summary(violent_probit2)
 summary(violent_model1)
+
+
+
+##################################
+####################################################################
+####################################################################
+####################################################################
+###                  HERE!!!!!!!!!!!
+####################################################################
+####################################################################
+####################################################################
+####################################################################
+##################################
+
+## ZELIG
+Crime_Data$hardship <- as.integer(Crime_Data$hardship_index)
+Crime_Data$close_ <- as.factor(Crime_Data$close)
+Z1 <- zelig(close_ ~ hardship + violent, cite = FALSE, data = Crime_Data, model = 'logit')
+summary(Z1)
+setZ1 <- setx(Z1, hardship = 1:2)
+simZ1 <- sim(Z1, x = setZ1)
+plot(simZ1)
+
+write.csv(Crime_Data$hardship, "hardship.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+battery_distance <- ifelse(Crime_Data$Primary.Type=="BATTERY",Crime_Data$rel_dist,NA)
+battery_distance <- battery_distance[!(is.na(battery_distance))]
+battery_distance_sta <- ifelse(Crime_Data$Primary.Type=="BATTERY",Crime_Data$rel_dist_sta,NA)
+battery_distance_sta <- battery_distance_sta[!(is.na(battery_distance_sta))]
+battery_distance_sta <- battery_distance_sta[order(battery_distance_sta)]
+View(battery_distance_sta)
+
+hist(battery_distance_sta, freq=FALSE, col="grey", main="Histogram for Battery")
+#hist(battery_distance, freq=FALSE, add=TRUE)
+#curve(dnorm(x, mean=mean(battery_distance), sd=sd(battery_distance)), add=TRUE, col="darkblue", lwd=2) 
+curve(dnorm(x, mean=mean(battery_distance_sta), sd=sd(battery_distance_sta)), add=TRUE, col="darkblue", lwd=2) 
+
 
 
 # Aggregate descriptive statistics
