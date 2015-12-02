@@ -7,7 +7,7 @@ output: html_document
 bibliography: literature/crimemapping_literature.bib
 ---
 
-```{r, include=FALSE}
+```{r library and wd, include=FALSE}
  
 ## NOTE: Running this file may take a few minutes because R will load ~340.000 observations (crime in the year 2012).
 
@@ -173,7 +173,7 @@ points(coordinates(sids),pch=2)
 ```
 
 
-```{r, echo=FALSE}
+```{r , echo=FALSE}
 
 ## Information is saved onto the boundaries data frame to be then merged with the additional information
 boundaries$centroid_x <- PoliceDistrictCentroids$x
@@ -214,7 +214,7 @@ total <- merge(crimes, census, by.x = "Community.Area", by.y = "ca")
 
 ```
 
-```{r, echo=FALSE}
+```{r Merging and Renaming 1, echo=FALSE}
 
 ## Data from the boundaries and the community areas with their respective centroids is merged with the crime and census data
 total <- merge(total, boundaries, by.x = "District", by.y = "DIST_NUM")
@@ -243,7 +243,7 @@ We calculate both distances in two ways:
 
 2. The relative distance based on the crime in each district that is farthest away from the district's center. The relative distance is calculated as the distance of every crime to the center divided by the distance of the crime that is the farthest away from the center of the district. This allows us to understand the position of every crime in relation to the police district where it occurred, instead of a level measurement. 
 
-```{r, echo=FALSE}
+```{r Absolute Distance, echo=FALSE}
 
 # Absolute Distance
 ## The Distance from the place where a crime was committed to the center of the police district is calculated. 
@@ -262,7 +262,7 @@ total <- total[!(is.na(total$distance_sta)),]
 counter <- aggregate(count ~ District, data = total, FUN=mean)
 ```
 
-```{r, echo=FALSE}
+```{r Relative Distance Loop, echo=FALSE}
 
 # Relative Distance
 ## To determine the relative distances (crime farthest away=1)
@@ -305,7 +305,7 @@ This section is used to describe the data on which our analysis is based and pre
 
 ### Aggregate Crime Statistics
 
-```{r, echo=FALSE}
+```{r Collapse Data Frame, echo=FALSE}
 # Aggregate descriptive statistics
 ## A "Collapse" is done on the relative distance by District and by typ of crime, and then
 ## only to types of crime to see if there is a relationship between their occurence in relation to the 
@@ -364,6 +364,8 @@ kable(as.matrix(table1), digits = 2, caption = "Table 1 - Number of Reported Cri
 ```
 
 **Table 2** presents the *relative* distance between crime scene and police station as well as the *relative* distance between crime scene and the calculated police district center. The table again shows all crime types and presents the average across all districts. 
+
+The first and third column in **Table 2** show the names of the "Crime Types", while the second and forth columns present the data for the relative distance to the calculated district center and the police station respectively. 
 
 ```{r kable Table 2, echo=FALSE}
 kable(as.matrix(table2), digits = 2, caption = "Table 2 - Relative Distance to Policy Station and to District Center (Accross All Districts, All Crime Types)") 
@@ -462,10 +464,13 @@ To determine whether the location of the police station has an effect on crime, 
 
 ```{r Close and Far Crimes Dummy, echo=FALSE}
 
-## Close or Far away Crime (close = 1)
-
+# We create a variable called "far" (far = 1)
 Crime_Data$half_distance  <- 2*Crime_Data$max_distance/3
-Crime_Data$close <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
+Crime_Data$far <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
+
+## This commented section creates a variable called "close" (close = 1)
+#Crime_Data$half_distance  <- 2*Crime_Data$max_distance/3
+#Crime_Data$close <- ifelse(Crime_Data$distance>=Crime_Data$half_distance,1,0)
 
 ```
 
@@ -556,6 +561,28 @@ Crime_Data$money <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION" | Crime_Data$
 
 ```
 
+
+#### Creating individual crime dummies 
+
+```{r Creating Prostitution Dummy, echo=FALSE}
+
+##creating a dummy variable for money component (money-related = 1)
+
+Crime_Data$Prostitution <- ifelse(Crime_Data$Primary.Type=="PROSTITUTION", 1,0)
+
+Crime_Data$Narcotics <- ifelse(Crime_Data$Primary.Type=="NARCOTICS", 1,0)
+
+Crime_Data$Gambling <- ifelse(Crime_Data$Primary.Type=="GAMBLING", 1,0)
+
+Crime_Data$Arson <- ifelse(Crime_Data$Primary.Type=="ARSON", 1,0)
+
+
+```
+
+
+
+
+
 ### Regression 
 
 We rely on a regression in order to test whether the location of the police station and the delineation of police districts in the city has an effect on the spatial distribution of crime in Chicago. 
@@ -566,39 +593,154 @@ Independent variables are the distance to the main district police station as we
 
 For the regression, we have to control for the specific characteristics of the police districts in question that affect crime. Economic and demographic factors in each city area must be considered. The Data Portal of the City of Chicago includes Census data that is aggregated on the community level which allows us to control for a number of socioeconomic effects on crime. We especially rely on the so-called "hardship index" that represents a weighted index of six socioeconomic variables (percent of housing crowded, percent households below poverty line, percentage aged 16+ unemployed, percentage aged 25+ without highschool diploma, percentage aged under 18 or over 64, per capita income).  
 
-#### Model 1 - 
+#### Model 1.1 - Probability of Violent Crimes occuring Far Away from the Police Station  
+
+This model calculates the probability of a crime occuring far away from the police station depending on it being a violent crime. The dependent variable is our dummy variable "far", which distinguishes between crimes that are committed inside and outside the circle drawn around the police station. To explain the variation in the dependent variable, this model includes the hardship index, which covers six socioeconomic indicators, and our dummy variable violent, which determines whether the crime included the application of violence, as dependent variables. 
+
+```{r violent_probit1, echo=FALSE}
+
+##VIOLENT
+## Regression 
+violent_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(violent), family=binomial(link="probit"), data=Crime_Data)
+
+## Creating Fitted Values for the Regression 
+fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), violent = factor(0:1))) 
+fitted$predicted <- predict(violent_probit1, newdata = fitted, type = 'response', interval='confidence')
+kable(fitted)
+
+```
+
+#### Model 1.2 - Probability of Crimes directed at Property occuring Far Away from the Police Station 
+
+This model replaces the variable "violent" with the dummy for "property-related".
+
+```{r property_probit1, echo=FALSE}
+
+## PROPERTY
+property_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
+fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), property = factor(0:1))) 
+fitted$predicted <- predict(property_probit1, newdata = fitted, type = 'response', interval='confidence')
+kable(fitted)
+
+```
+
+#### Model 1.3 - Probability of Crimes including a occuring Far Away from the Police Station
+
+This model replaces the dummy for "property-related" with the third category, which states that the crime includes a significant monetary component/incentive. 
+
+```{r money_probit1, echo=FALSE}
+
+## MONEY
+money_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(money), family=binomial(link="probit"), data=Crime_Data)
+fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), money = factor(0:1))) 
+fitted$predicted <- predict(money_probit1, newdata = fitted, type = 'response', interval='confidence')
+kable(fitted)
+
+```
 
 
-```{r Zelig 1, echo=FALSE}
+#### Model 2.1 - Socioeconomic indicators and Violent Crime as Predictors for the Distribution of Crime 
+
+The second model substitutes the "hardship index" for its individual components and ... 
 
 
-##defining variables 
-PerCapitaIncome <- as.integer(Crime_Data$per_capita_income_)
-Over16Unemployed <- as.integer(Crime_Data$percent_aged_16_unemployed)
-CrimeIsViolent <- as.factor(Crime_Data$violent)
-CrimeIsClose <- Crime_Data$close
+```{r violent_probit2, echo=FALSE}
 
-x <- list(PerCapitaIncome, Over16Unemployed, CrimeIsViolent, CrimeIsClose)
-CrimeData <- as.data.frame(x)
+## VIOLENT
 
+violent_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(violent), family=binomial(link="probit"), data=Crime_Data)
 
-library(Zelig)
-Z1 <- zelig(CrimeIsClose ~ PerCapitaIncome + Over16Unemployed + CrimeIsViolent, cite = FALSE, data = CrimeData, model = 'logit')
-
-summary(Z1)
-
-# setting fitted values
-
-setZ1 <- setx(Z1, Over16Unemployed = 4:22)
-
-##Run simulation 
-simZ1 <- sim(Z1, x = setZ1, num = 500)
-
-plot(simZ1)
+fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), violent = factor(0:1)))
+fitted2$predicted <- predict(violent_probit2, newdata = fitted2, type = 'response', interval='confidence')
+kable(fitted2)
 
 
+```
 
 
+#### Model 2.2 - Socioeconomic Indicators and Money-related 
+
+```{r money_probit2, echo=FALSE}
+
+## MONEY
+
+money_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(money), family=binomial(link="probit"), data=Crime_Data)
+
+fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), money = factor(0:1)))
+fitted2$predicted <- predict(money_probit2, newdata = fitted2, type = 'response', interval='confidence')
+kable(fitted2)
+
+```
+
+#### Model 2.3 - Socioeconomic Indicators and Property 
+
+```{r property_probit2, echo=FALSE}
+
+## MONEY
+
+property_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
+
+fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), property = factor(0:1)))
+fitted2$predicted <- predict(property_probit2, newdata = fitted2, type = 'response', interval='confidence')
+kable(fitted2)
+
+```
+
+### Model 3 - Analysis for Individual Crimes
+
+#### Spatial Distribution: Prostitution Crime
+
+```{r Prostitution_probit3, echo=FALSE}
+
+## MONEY
+
+Prostitution_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Prostitution), family=binomial(link="probit"), data=Crime_Data)
+
+fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Prostitution = factor(0:1)))
+fitted3$predicted <- predict(Prostitution_probit3, newdata = fitted3, type = 'response', interval='confidence')
+kable(fitted3)
+
+```
+
+#### Spatial Distribution: Narcotics Crime 
+
+```{r Narcotics_probit3, echo=FALSE}
+
+## MONEY
+
+Narcotics_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Narcotics), family=binomial(link="probit"), data=Crime_Data)
+
+fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Narcotics = factor(0:1)))
+fitted3$predicted <- predict(Narcotics_probit3, newdata = fitted3, type = 'response', interval='confidence')
+kable(fitted3)
+
+```
+
+#### Spatial Distribution: Gambling Crime 
+
+```{r Gambling_probit3, echo=FALSE}
+
+## MONEY
+
+Gambling_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Gambling), family=binomial(link="probit"), data=Crime_Data)
+
+fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Gambling = factor(0:1)))
+fitted3$predicted <- predict(Gambling_probit3, newdata = fitted3, type = 'response', interval='confidence')
+kable(fitted3)
+
+```
+
+#### Spatial Distribution: Arson 
+
+```{r Arson_probit3, echo=FALSE}
+
+## MONEY
+
+Arson_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Arson), family=binomial(link="probit"), data=Crime_Data)
+
+fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Arson = factor(0:1)))
+fitted3$predicted <- predict(Arson_probit3, newdata = fitted3, type = 'response', interval='confidence')
+kable(fitted3)
 
 ```
 
@@ -607,8 +749,12 @@ plot(simZ1)
 
 
 
++ as.factor(money) + as.factor(property)
 
-#### Model 2 - 
+ + as.factor(property) + as.factor(violent)
+
++ as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) 
+
 
 
 https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/cd857308ab8abdfc9a85de1c31a8955dd74f826a/LectureSlides/Lecture8/Lecture8.html#38 
@@ -638,15 +784,15 @@ https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb
 ```{r, echo=FALSE}
 ### MODELS ARE CREATED AND SUMMARY STATISTICS FOR THE MODELS ARE PRESENTED
 
-violent_probit1 <- glm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, family=binomial(link="probit"), data=Crime_Data)
+#violent_probit1 <- glm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, family=binomial(link="probit"), data=Crime_Data)
 
-violent_probit2 <- glm(Crime_Data$close ~  Crime_Data$violent + as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
+#violent_probit2 <- glm(Crime_Data$close ~  Crime_Data$violent + as.integer(Crime_Data$per_capita_income_), family=binomial(link="probit"), data=Crime_Data)
 
-violent_model1 <- lm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
+#violent_model1 <- lm(Crime_Data$close ~ as.integer(Crime_Data$hardship_index) + Crime_Data$violent, data=Crime_Data)
 
-summary(violent_probit2)
+#summary(violent_probit2)
 
-summary(violent_model1)
+#summary(violent_model1)
 
 #plot(violent_model1, which = 1)
 

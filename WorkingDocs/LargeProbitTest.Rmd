@@ -1,0 +1,21 @@
+---
+title: "Untitled"
+author: "fabianbohnenberger"
+date: "2. Dezember 2015"
+output: html_document
+---
+
+
+```{r probit2, echo=FALSE}
+
+## MONEY
+
+probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(money) + as.factor(property) + as.factor(violent), family=binomial(link="probit"), data=Crime_Data)
+
+fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), money = factor(0:1), property =factor(0:1), violent = factor(0:1)))
+fitted2$predicted <- predict(probit2, newdata = fitted2, type = 'response', interval='confidence')
+kable(fitted2)
+
+
+
+```
