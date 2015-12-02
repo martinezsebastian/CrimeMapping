@@ -727,23 +727,24 @@ img {
 <h4>Model 1.1 - Probability of Violent Crimes occuring Far Away from the Police Station</h4>
 <p>This model calculates the probability of a crime occuring far away from the police station depending on it being a violent crime. The dependent variable is our dummy variable “far”, which distinguishes between crimes that are committed inside and outside the circle drawn around the police station. To explain the variation in the dependent variable, this model includes the hardship index, which covers six socioeconomic indicators, and our dummy variable violent, which determines whether the crime included the application of violence, as dependent variables.</p>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">hardship_index</th>
-<th align="left">violent</th>
-<th align="right">predicted</th>
+<th align="center">hardship_index</th>
+<th align="center">violent</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">33.41303</td>
-<td align="left">0</td>
-<td align="right">0.1013326</td>
+<td align="center">33.413</td>
+<td align="center">0</td>
+<td align="center">0.101</td>
 </tr>
 <tr class="even">
-<td align="right">33.41303</td>
-<td align="left">1</td>
-<td align="right">0.0908209</td>
+<td align="center">33.413</td>
+<td align="center">1</td>
+<td align="center">0.091</td>
 </tr>
 </tbody>
 </table>
@@ -752,23 +753,24 @@ img {
 <h4>Model 1.2 - Probability of Crimes directed at Property occuring Far Away from the Police Station</h4>
 <p>This model replaces the variable “violent” with the dummy for “property-related”.</p>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">hardship_index</th>
-<th align="left">property</th>
-<th align="right">predicted</th>
+<th align="center">hardship_index</th>
+<th align="center">property</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">33.41303</td>
-<td align="left">0</td>
-<td align="right">0.0886886</td>
+<td align="center">33.413</td>
+<td align="center">0</td>
+<td align="center">0.089</td>
 </tr>
 <tr class="even">
-<td align="right">33.41303</td>
-<td align="left">1</td>
-<td align="right">0.1072772</td>
+<td align="center">33.413</td>
+<td align="center">1</td>
+<td align="center">0.107</td>
 </tr>
 </tbody>
 </table>
@@ -777,58 +779,310 @@ img {
 <h4>Model 1.3 - Probability of Crimes including a occuring Far Away from the Police Station</h4>
 <p>This model replaces the dummy for “property-related” with the third category, which states that the crime includes a significant monetary component/incentive.</p>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">hardship_index</th>
-<th align="left">money</th>
-<th align="right">predicted</th>
+<th align="center">hardship_index</th>
+<th align="center">money</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">33.41303</td>
-<td align="left">0</td>
-<td align="right">0.1020428</td>
+<td align="center">33.413</td>
+<td align="center">0</td>
+<td align="center">0.102</td>
 </tr>
 <tr class="even">
-<td align="right">33.41303</td>
-<td align="left">1</td>
-<td align="right">0.0949444</td>
+<td align="center">33.413</td>
+<td align="center">1</td>
+<td align="center">0.095</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div id="summary-model-1" class="section level4">
+<h4>Summary Model 1</h4>
+<p><strong>Table 3</strong> shows …</p>
+<p><strong>Table 3</strong>*</p>
+<table style="text-align:center">
+<caption>
+<strong>Logistic Regression Estimates of Model 1</strong>
+</caption>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+far
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Hardship Index
+</td>
+<td>
+0.005<sup>***</sup>
+</td>
+<td>
+0.01<sup>***</sup>
+</td>
+<td>
+0.005<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0002)
+</td>
+<td>
+(0.0002)
+</td>
+<td>
+(0.0002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Violent Dummy
+</td>
+<td>
+-0.06<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.01)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Property Dummy
+</td>
+<td>
+</td>
+<td>
+0.11<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.01)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Money Dummy
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.04<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.01)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-1.44<sup>***</sup>
+</td>
+<td>
+-1.52<sup>***</sup>
+</td>
+<td>
+-1.43<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.01)
+</td>
+<td>
+(0.01)
+</td>
+<td>
+(0.01)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-37,239.72
+</td>
+<td>
+-37,199.31
+</td>
+<td>
+-37,245.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+74,485.44
+</td>
+<td>
+74,404.62
+</td>
+<td>
+74,496.65
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="3" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
 </div>
-</div>
-<div id="include-stargazer" class="section level1">
-<h1>include stargazer:</h1>
-<p><a href="https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#22" class="uri">https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#22</a></p>
-<pre><code>## 
-## &lt;table style=&quot;text-align:center&quot;&gt;&lt;caption&gt;&lt;strong&gt;Logistic Regression Estimates of Model 1&lt;/strong&gt;&lt;/caption&gt;
-## &lt;tr&gt;&lt;td colspan=&quot;4&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td colspan=&quot;3&quot;&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td colspan=&quot;3&quot;&gt;far&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan=&quot;4&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Hardship Index&lt;/td&gt;&lt;td&gt;0.005&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.01&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.005&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(0.0002)&lt;/td&gt;&lt;td&gt;(0.0002)&lt;/td&gt;&lt;td&gt;(0.0002)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Violent Dummy&lt;/td&gt;&lt;td&gt;-0.06&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Property Dummy&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;0.11&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Money Dummy&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-0.04&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Constant&lt;/td&gt;&lt;td&gt;-1.44&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-1.52&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-1.43&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;td&gt;(0.01)&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan=&quot;4&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Observations&lt;/td&gt;&lt;td&gt;114,790&lt;/td&gt;&lt;td&gt;114,790&lt;/td&gt;&lt;td&gt;114,790&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Log Likelihood&lt;/td&gt;&lt;td&gt;-37,239.72&lt;/td&gt;&lt;td&gt;-37,199.31&lt;/td&gt;&lt;td&gt;-37,245.33&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Akaike Inf. Crit.&lt;/td&gt;&lt;td&gt;74,485.44&lt;/td&gt;&lt;td&gt;74,404.62&lt;/td&gt;&lt;td&gt;74,496.65&lt;/td&gt;&lt;/tr&gt;
-## &lt;tr&gt;&lt;td colspan=&quot;4&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan=&quot;3&quot; style=&quot;text-align:right&quot;&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
-## &lt;/table&gt;</code></pre>
 <div id="model-2.1---socioeconomic-indicators-and-violent-crime-as-predictors-for-the-distribution-of-crime" class="section level4">
 <h4>Model 2.1 - Socioeconomic indicators and Violent Crime as Predictors for the Distribution of Crime</h4>
 <p>The second model substitutes the “hardship index” for its individual components and …</p>
@@ -849,142 +1103,611 @@ img {
 <tbody>
 <tr class="odd">
 <td align="center">36813.91</td>
-<td align="center">10.89</td>
-<td align="center">16.55</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
 <td align="center">16.01</td>
-<td align="center">4.11</td>
-<td align="center">29.37</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
 <td align="center">0</td>
-<td align="center">0.07</td>
+<td align="center">0.068</td>
 </tr>
 <tr class="even">
 <td align="center">36813.91</td>
-<td align="center">10.89</td>
-<td align="center">16.55</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
 <td align="center">16.01</td>
-<td align="center">4.11</td>
-<td align="center">29.37</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
 <td align="center">1</td>
-<td align="center">0.06</td>
+<td align="center">0.058</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="model-2.2---socioeconomic-indicators-and-money-related" class="section level4">
-<h4>Model 2.2 - Socioeconomic Indicators and Money-related</h4>
+<div id="model-2.2---socioeconomic-indicators-and-crimes-directed-at-property" class="section level4">
+<h4>Model 2.2 - Socioeconomic Indicators and Crimes directed at Property</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">money</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">property</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0613315</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.061</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.0708271</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.069</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="model-2.3---socioeconomic-indicators-and-property" class="section level4">
-<h4>Model 2.3 - Socioeconomic Indicators and Property</h4>
+<div id="model-2.3---socioeconomic-indicators-and-money-related" class="section level4">
+<h4>Model 2.3 - Socioeconomic Indicators and Money-related</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">property</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">money</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0614322</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.061</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.0691183</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.071</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="summary-model-2" class="section level4">
+<h4>Summary Model 2</h4>
+<table style="text-align:center">
+<caption>
+<strong>Logistic Regression Estimates of Model 1</strong>
+</caption>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+far
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Per Capita Income
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0000)
+</td>
+<td>
+(0.0000)
+</td>
+<td>
+(0.0000)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged 16+ Unemployed
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Households below Poverty Line
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged 25 without High School Diploma
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.001)
+</td>
+<td>
+(0.001)
+</td>
+<td>
+(0.001)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent of Housing Crowded
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.005)
+</td>
+<td>
+(0.005)
+</td>
+<td>
+(0.005)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged under 18 or over 64
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Violent Dummy
+</td>
+<td>
+-0.08<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.01)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Property Dummy
+</td>
+<td>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.01)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Money Dummy
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.07<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.01)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.58<sup>***</sup>
+</td>
+<td>
+0.52<sup>***</sup>
+</td>
+<td>
+0.54<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.09)
+</td>
+<td>
+(0.09)
+</td>
+<td>
+(0.09)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-31,298.28
+</td>
+<td>
+-31,303.78
+</td>
+<td>
+-31,296.60
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+62,612.57
+</td>
+<td>
+62,623.57
+</td>
+<td>
+62,609.19
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="3" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div id="model-3---analysis-for-individual-crimes" class="section level3">
 <h3>Model 3 - Analysis for Individual Crimes</h3>
 <div id="spatial-distribution-prostitution-crime" class="section level4">
 <h4>Spatial Distribution: Prostitution Crime</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">Prostitution</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">Prostitution</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0654548</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.065</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.1149494</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.115</td>
 </tr>
 </tbody>
 </table>
@@ -992,38 +1715,39 @@ img {
 <div id="spatial-distribution-narcotics-crime" class="section level4">
 <h4>Spatial Distribution: Narcotics Crime</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">Narcotics</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">Narcotics</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0657609</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.066</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.0647197</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.065</td>
 </tr>
 </tbody>
 </table>
@@ -1031,38 +1755,39 @@ img {
 <div id="spatial-distribution-gambling-crime" class="section level4">
 <h4>Spatial Distribution: Gambling Crime</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">Gambling</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">Gambling</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0656025</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.066</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.1204329</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.120</td>
 </tr>
 </tbody>
 </table>
@@ -1070,40 +1795,631 @@ img {
 <div id="spatial-distribution-arson" class="section level4">
 <h4>Spatial Distribution: Arson</h4>
 <table>
+<caption>Predicted Probabilities for Fitted Values</caption>
 <thead>
 <tr class="header">
-<th align="right">per_capita_income_</th>
-<th align="right">percent_aged_16_unemployed</th>
-<th align="right">percent_households_below_poverty</th>
-<th align="right">percent_aged_25_without_high_school_diploma</th>
-<th align="right">percent_of_housing_crowded</th>
-<th align="right">percent_aged_under_18_or_over_64</th>
-<th align="left">Arson</th>
-<th align="right">predicted</th>
+<th align="center">per_capita_income_</th>
+<th align="center">percent_aged_16_unemployed</th>
+<th align="center">percent_households_below_poverty</th>
+<th align="center">percent_aged_25_without_high_school_diploma</th>
+<th align="center">percent_of_housing_crowded</th>
+<th align="center">percent_aged_under_18_or_over_64</th>
+<th align="center">Arson</th>
+<th align="center">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">0</td>
-<td align="right">0.0657200</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">0</td>
+<td align="center">0.066</td>
 </tr>
 <tr class="even">
-<td align="right">36813.91</td>
-<td align="right">10.88577</td>
-<td align="right">16.54824</td>
-<td align="right">16.01031</td>
-<td align="right">4.107875</td>
-<td align="right">29.36513</td>
-<td align="left">1</td>
-<td align="right">0.0420283</td>
+<td align="center">36813.91</td>
+<td align="center">10.886</td>
+<td align="center">16.548</td>
+<td align="center">16.01</td>
+<td align="center">4.108</td>
+<td align="center">29.365</td>
+<td align="center">1</td>
+<td align="center">0.042</td>
 </tr>
 </tbody>
+</table>
+</div>
+<div id="summary-model-3" class="section level4">
+<h4>Summary Model 3</h4>
+<table style="text-align:center">
+<caption>
+<strong>Logistic Regression Estimates of Model 1</strong>
+</caption>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="4">
+far
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Per Capita Income
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+<td>
+-0.0000<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0000)
+</td>
+<td>
+(0.0000)
+</td>
+<td>
+(0.0000)
+</td>
+<td>
+(0.0000)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged 16+ Unemployed
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+<td>
+-0.13<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Households below Poverty Line
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged 25 without High School Diploma
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+<td>
+0.004<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.001)
+</td>
+<td>
+(0.001)
+</td>
+<td>
+(0.001)
+</td>
+<td>
+(0.001)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent of Housing Crowded
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+<td>
+0.06<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.005)
+</td>
+<td>
+(0.005)
+</td>
+<td>
+(0.005)
+</td>
+<td>
+(0.005)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Percent Aged under 18 or over 64
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+<td>
+0.02<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Prostitution Dummy
+</td>
+<td>
+0.31<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.08)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Narcotics Dummy
+</td>
+<td>
+</td>
+<td>
+-0.01
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.02)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Gambling Dummy
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.34<sup>*</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.19)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Arson Dummy
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.22
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.15)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.57<sup>***</sup>
+</td>
+<td>
+0.56<sup>***</sup>
+</td>
+<td>
+0.57<sup>***</sup>
+</td>
+<td>
+0.56<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.09)
+</td>
+<td>
+(0.09)
+</td>
+<td>
+(0.09)
+</td>
+<td>
+(0.09)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+<td>
+114,790
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-31,311.64
+</td>
+<td>
+-31,317.83
+</td>
+<td>
+-31,316.51
+</td>
+<td>
+-31,316.79
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+62,639.28
+</td>
+<td>
+62,651.66
+</td>
+<td>
+62,649.03
+</td>
+<td>
+62,649.57
+</td>
+</tr>
+<tr>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="4" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
 </table>
 <ul>
 <li><p>as.factor(money) + as.factor(property)</p></li>

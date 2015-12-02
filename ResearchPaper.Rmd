@@ -606,7 +606,7 @@ violent_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(violent), fa
 ## Creating Fitted Values for the Regression 
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), violent = factor(0:1))) 
 fitted$predicted <- predict(violent_probit1, newdata = fitted, type = 'response', interval='confidence')
-kable(fitted)
+kable(fitted, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -620,7 +620,7 @@ This model replaces the variable "violent" with the dummy for "property-related"
 property_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), property = factor(0:1))) 
 fitted$predicted <- predict(property_probit1, newdata = fitted, type = 'response', interval='confidence')
-kable(fitted)
+kable(fitted, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -634,21 +634,24 @@ This model replaces the dummy for "property-related" with the third category, wh
 money_probit1 <- glm(far ~ as.integer(hardship_index) + as.factor(money), family=binomial(link="probit"), data=Crime_Data)
 fitted <- with(Crime_Data, data.frame(hardship_index=mean(as.integer(hardship_index)), money = factor(0:1))) 
 fitted$predicted <- predict(money_probit1, newdata = fitted, type = 'response', interval='confidence')
-kable(fitted)
+kable(fitted, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
-#include stargazer:
-https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#22 
+#### Summary Model 1 
 
-```{r Stargazer Table 1, echo=FALSE}
+**Table 3** shows ... 
+
+**Table 3***
+```{r Stargazer Table 1, echo=FALSE, results='asis'}
 
 ## Create covariate labels
 labels <- c('Hardship Index', 'Violent Dummy',
             'Property Dummy', 'Money Dummy')
 
+##Using stargazer, we create a table that summarizes the results of the Models 1.1 to 1.3. 
 stargazer::stargazer(violent_probit1, property_probit1, money_probit1, covariate.labels = labels,
-    title = 'Logistic Regression Estimates of Model 1',
+    title = 'Logistic Regression Estimates of Model 1.1 to 1.3',
     digits = 2, type = 'html')
 
 ```
@@ -667,12 +670,26 @@ violent_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent
 
 fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), violent = factor(0:1)))
 fitted2$predicted <- predict(violent_probit2, newdata = fitted2, type = 'response', interval='confidence')
-kable(fitted2, align = 'c', digits = 2, caption = 'Predicted Probabilities for Fitted Values')
+kable(fitted2, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
 
-#### Model 2.2 - Socioeconomic Indicators and Money-related 
+#### Model 2.2 - Socioeconomic Indicators and Crimes directed at Property
+
+```{r property_probit2, echo=FALSE}
+
+## Property
+
+property_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
+
+fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), property = factor(0:1)))
+fitted2$predicted <- predict(property_probit2, newdata = fitted2, type = 'response', interval='confidence')
+kable(fitted2, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
+
+```
+
+#### Model 2.3 - Socioeconomic Indicators and Money-related 
 
 ```{r money_probit2, echo=FALSE}
 
@@ -682,21 +699,22 @@ money_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_a
 
 fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), money = factor(0:1)))
 fitted2$predicted <- predict(money_probit2, newdata = fitted2, type = 'response', interval='confidence')
-kable(fitted2)
+kable(fitted2, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
-#### Model 2.3 - Socioeconomic Indicators and Property 
 
-```{r property_probit2, echo=FALSE}
+#### Summary Model 2
 
-## MONEY
+```{r Stargazer Table 2, echo=FALSE, results='asis'}
 
-property_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(property), family=binomial(link="probit"), data=Crime_Data)
+## Create covariate labels
+labels2 <- c('Per Capita Income', 'Percent Aged 16+ Unemployed', 'Percent Households below Poverty Line', 'Percent Aged 25 without High School Diploma', 'Percent of Housing Crowded', 'Percent Aged under 18 or over 64', 'Violent Dummy', 'Property Dummy', 'Money Dummy')
 
-fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), property = factor(0:1)))
-fitted2$predicted <- predict(property_probit2, newdata = fitted2, type = 'response', interval='confidence')
-kable(fitted2)
+##Using stargazer, we create a table that summarizes the results of the Models 1.1 to 1.3. 
+stargazer::stargazer(violent_probit2, property_probit2, money_probit2, covariate.labels = labels2,
+    title = 'Logistic Regression Estimates of Model 2.1 to 2.3',
+    digits = 2, type = 'html')
 
 ```
 
@@ -707,13 +725,11 @@ kable(fitted2)
 
 ```{r Prostitution_probit3, echo=FALSE}
 
-## MONEY
-
 Prostitution_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Prostitution), family=binomial(link="probit"), data=Crime_Data)
 
 fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Prostitution = factor(0:1)))
 fitted3$predicted <- predict(Prostitution_probit3, newdata = fitted3, type = 'response', interval='confidence')
-kable(fitted3)
+kable(fitted3, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -721,13 +737,11 @@ kable(fitted3)
 
 ```{r Narcotics_probit3, echo=FALSE}
 
-## MONEY
-
 Narcotics_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Narcotics), family=binomial(link="probit"), data=Crime_Data)
 
 fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Narcotics = factor(0:1)))
 fitted3$predicted <- predict(Narcotics_probit3, newdata = fitted3, type = 'response', interval='confidence')
-kable(fitted3)
+kable(fitted3, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -735,13 +749,11 @@ kable(fitted3)
 
 ```{r Gambling_probit3, echo=FALSE}
 
-## MONEY
-
 Gambling_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Gambling), family=binomial(link="probit"), data=Crime_Data)
 
 fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Gambling = factor(0:1)))
 fitted3$predicted <- predict(Gambling_probit3, newdata = fitted3, type = 'response', interval='confidence')
-kable(fitted3)
+kable(fitted3, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -749,13 +761,25 @@ kable(fitted3)
 
 ```{r Arson_probit3, echo=FALSE}
 
-## MONEY
-
 Arson_probit3 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent_aged_16_unemployed) + as.integer(percent_households_below_poverty) + as.integer(percent_aged_25_without_high_school_diploma)+ as.integer(percent_of_housing_crowded) + as.integer(percent_aged_under_18_or_over_64) + as.factor(Arson), family=binomial(link="probit"), data=Crime_Data)
 
 fitted3 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), Arson = factor(0:1)))
 fitted3$predicted <- predict(Arson_probit3, newdata = fitted3, type = 'response', interval='confidence')
-kable(fitted3)
+kable(fitted3, align = 'c', digits = 3, caption = 'Predicted Probabilities for Fitted Values')
+
+```
+
+#### Summary Model 3 
+
+```{r Stargazer Table 3, echo=FALSE, results='asis'}
+
+## Create covariate labels
+labels3 <- c('Per Capita Income', 'Percent Aged 16+ Unemployed', 'Percent Households below Poverty Line', 'Percent Aged 25 without High School Diploma', 'Percent of Housing Crowded', 'Percent Aged under 18 or over 64', 'Prostitution Dummy', 'Narcotics Dummy', 'Gambling Dummy', 'Arson Dummy')
+
+##Using stargazer, we create a table that summarizes the results of the Models 1.1 to 1.3. 
+stargazer::stargazer(Prostitution_probit3, Narcotics_probit3, Gambling_probit3, Arson_probit3, covariate.labels = labels3,
+    title = 'Logistic Regression Estimates of Model 3.1 to 3.4',
+    digits = 2, type = 'html')
 
 ```
 
