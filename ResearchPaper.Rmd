@@ -638,6 +638,21 @@ kable(fitted)
 
 ```
 
+#include stargazer:
+https://cdn.rawgit.com/HertieDataScience/SyllabusAndLectures/b9f58b3e4dfde2543fb490f46349ce7afec4c18b/LectureSlides/Lecture9/Lecture9.html#22 
+
+```{r Stargazer Table 1, echo=FALSE}
+
+## Create covariate labels
+labels <- c('Hardship Index', 'Violent Dummy',
+            'Property Dummy', 'Money Dummy')
+
+stargazer::stargazer(violent_probit1, property_probit1, money_probit1, covariate.labels = labels,
+    title = 'Logistic Regression Estimates of Model 1',
+    digits = 2, type = 'html')
+
+```
+
 
 #### Model 2.1 - Socioeconomic indicators and Violent Crime as Predictors for the Distribution of Crime 
 
@@ -652,8 +667,7 @@ violent_probit2 <- glm(far ~ as.integer(per_capita_income_) + as.integer(percent
 
 fitted2 <- with(Crime_Data, data.frame(per_capita_income_=mean(as.integer(per_capita_income_)), percent_aged_16_unemployed=mean(as.integer(percent_aged_16_unemployed)), percent_households_below_poverty=mean(as.integer(percent_households_below_poverty)), percent_aged_25_without_high_school_diploma=mean(as.integer(percent_aged_25_without_high_school_diploma)), percent_of_housing_crowded=mean(as.integer(percent_of_housing_crowded)), percent_aged_under_18_or_over_64=mean(as.integer(percent_aged_under_18_or_over_64)), violent = factor(0:1)))
 fitted2$predicted <- predict(violent_probit2, newdata = fitted2, type = 'response', interval='confidence')
-kable(fitted2)
-
+kable(fitted2, align = 'c', digits = 2, caption = 'Predicted Probabilities for Fitted Values')
 
 ```
 
@@ -685,6 +699,7 @@ fitted2$predicted <- predict(property_probit2, newdata = fitted2, type = 'respon
 kable(fitted2)
 
 ```
+
 
 ### Model 3 - Analysis for Individual Crimes
 
