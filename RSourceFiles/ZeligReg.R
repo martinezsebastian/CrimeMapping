@@ -29,6 +29,11 @@ simZ1 <- sim(Z1, x = setZ1, num = 500)
 
 plot(simZ1)
 
+Crime_Data$
+
+
+
+
 
 
 ##setZ1 <- setx(Z1, PerCapitaIncome = 30000:40000)

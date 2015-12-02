@@ -436,7 +436,7 @@ Figure 5 and Figure 6 show the same distributions as Figure 3 and Figure 4, but 
 
 **Figure 5 - Relative Distance between Crime Types and District Center across Police Districts**
 ```{r, echo=FALSE}
-reldiststa <- as.numeric(agg_crime_type_sta$rel_dist_sta)
+reldiststa <- as.numeric(agg_crime_sta$rel_dist_sta)
 hist(reldiststa, freq=TRUE, main ="Relative Distance to Police Station")
 curve(dnorm(x, mean=mean(reldiststa), sd=sd(reldiststa)), add=TRUE, col="darkblue", lwd=2) 
 
