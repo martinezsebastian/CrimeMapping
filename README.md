@@ -15,6 +15,10 @@ Here is the link to our complete [proposal](https://rawgit.com/martinezsebastian
 
 [Analysis](https://rawgit.com/martinezsebastian/CrimeMapping/master/Analysis.html)
 
+## Final Assignment 
+
+[Research Paper](https://rawgit.com/martinezsebastian/CrimeMapping/master/ResearchPaper.html)
+
 ## Repository folder structure
 
 **literature** holds the BibTex file for the proposal; as well as some important literature and links to documents 
